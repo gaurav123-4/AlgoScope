@@ -37,9 +37,9 @@ export default function Visualizer({ algorithmType }) {
   const [speed, setSpeed] = useState(1)
   const barsRef = useRef([])
   const eleRef = useRef([])
-  
+
   // ... (keep existing state and logic until return) ...
-  
+
   useEffect(() => {
     barsRef.current = document.querySelectorAll('.bar')
     eleRef.current = document.querySelectorAll('.array-ele')
@@ -483,7 +483,11 @@ export default function Visualizer({ algorithmType }) {
                 <div
                   key={idx}
                   className="bar rounded-t-md transition-all duration-500 border border-cyan-900/50 shadow-[0_0_10px_rgba(6,182,212,0.2)]"
-                  style={{ height: `${val}px`, width: '30px', background: 'rgba(6, 182, 212, 0.8)' }}
+                  style={{
+                    height: `${val}px`,
+                    width: '30px',
+                    background: 'rgba(6, 182, 212, 0.8)',
+                  }}
                 >
                   <div className="bar-val">{val}</div>
                 </div>
@@ -523,7 +527,9 @@ export default function Visualizer({ algorithmType }) {
           </div>
 
           <div className="mt-8 space-y-4 w-full max-w-md">
-            <h3 className="text-lg font-semibold text-slate-300 text-center">Controls</h3>
+            <h3 className="text-lg font-semibold text-slate-300 text-center">
+              Controls
+            </h3>
             <div className="m-auto space-y-4">
               <div className="w-full">
                 <div className="relative">

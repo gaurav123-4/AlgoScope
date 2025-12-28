@@ -51,9 +51,15 @@ export const VisualizerPage = () => {
         {/* Right Panel: Visualization and Code */}
         <div className="w-full xl:w-4/5 mt-4 lg:mt-0 lg:ml-6 flex flex-col gap-6">
           <div className="rounded-xl overflow-hidden border border-white/10 shadow-lg">
-             <CanvasSearching algorithm={algorithm} vertex={node} speed={speed} />
+            <CanvasSearching
+              algorithm={algorithm}
+              vertex={node}
+              speed={speed}
+            />
           </div>
-          <CodeDisplay algorithm={algorithm} />
+          <div className="w-full mt-8">
+            <CodeDisplay algorithm={algorithm} />
+          </div>
         </div>
       </motion.div>
     </>
