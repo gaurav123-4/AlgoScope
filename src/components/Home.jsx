@@ -37,7 +37,9 @@ export const Home = () => {
           className="text-center max-w-4xl mx-auto space-y-6"
         >
           <div className="inline-flex items-center justify-center px-3 py-1 rounded-full border border-cyan-500/30 bg-cyan-500/10 backdrop-blur-sm mb-4">
-             <span className="text-xs font-mono text-cyan-400 tracking-wider uppercase">v1.0 Public Beta</span>
+            <span className="text-xs font-mono text-cyan-400 tracking-wider uppercase">
+              v1.0 Public Beta
+            </span>
           </div>
 
           <h1 className="text-6xl md:text-8xl font-black tracking-tighter">
@@ -51,7 +53,8 @@ export const Home = () => {
 
           <p className="text-lg md:text-2xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
             Unravel the complexity of code. <br className="hidden md:block" />
-            <span className="text-cyan-300 font-mono">Visualize</span> algorithms in real-time.
+            <span className="text-cyan-300 font-mono">Visualize</span>{' '}
+            algorithms in real-time.
           </p>
 
           <motion.div
@@ -62,6 +65,12 @@ export const Home = () => {
           >
             <a
               href="#explore"
+              onClick={(e) => {
+                e.preventDefault()
+                document.getElementById('explore')?.scrollIntoView({
+                  behavior: 'smooth',
+                })
+              }}
               className="inline-flex items-center justify-center px-8 py-4 text-base font-bold text-white transition-all duration-200 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 hover:scale-105 hover:border-cyan-500/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
             >
               Start Exploring
@@ -73,7 +82,9 @@ export const Home = () => {
         <div id="explore" className="w-full max-w-7xl mx-auto mt-32 px-4">
           <div className="flex items-center gap-4 mb-12">
             <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-700 to-transparent"></div>
-            <span className="text-slate-500 font-mono text-sm uppercase tracking-widest">Algorithms</span>
+            <span className="text-slate-500 font-mono text-sm uppercase tracking-widest">
+              Algorithms
+            </span>
             <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-700 to-transparent"></div>
           </div>
 
@@ -82,9 +93,9 @@ export const Home = () => {
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true, margin: '-100px' }}
           >
-             <AlgoCard
+            <AlgoCard
               title="Sorting"
               description="Visualizing Bubble, Merge, Quick, and Heap Sort."
               color="bg-slate-900/50 border-blue-500/30 hover:border-blue-400"
@@ -112,7 +123,7 @@ export const Home = () => {
               link="/ldssearch"
               image={LinearSearchImg}
             />
-             <AlgoCard
+            <AlgoCard
               title="Abstract Data Types"
               description="Stacks, Queues, Linked Lists (Beta)."
               color="bg-slate-900/50 border-emerald-500/30 hover:border-emerald-400"
@@ -125,3 +136,4 @@ export const Home = () => {
     </div>
   )
 }
+
