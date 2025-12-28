@@ -1,9 +1,10 @@
 import React from 'react'
 import AlgoCard from './AlgoCard'
-import SortingImg from '../assets/Picture1.png'
-import SearchingImg from '../assets/bfs_dfs.png'
-import LinearSearchImg from '../assets/new-arr.png'
-import GraphAlgoImg from '../assets/graph.png'
+import SortingImg from '../assets/new-home-images/array.png'
+import SearchingImg from '../assets/new-home-images/traversal.png'
+import LinearSearchImg from '../assets/new-home-images/search.png'
+import GraphAlgoImg from '../assets/new-home-images/shortestPath.png'
+import adt from '../assets/new-home-images/adt.png'
 import { motion } from 'framer-motion'
 
 // Animation Variants
@@ -128,7 +129,7 @@ export const Home = () => {
               description="Stacks, Queues, Linked Lists (Beta)."
               color="bg-slate-900/50 border-emerald-500/30 hover:border-emerald-400"
               link="/"
-              image={LinearSearchImg}
+              image={adt}
             />
           </motion.div>
         </div>
