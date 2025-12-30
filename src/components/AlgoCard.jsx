@@ -57,7 +57,9 @@ export default function AlgoCard({
           </motion.div>
         )}
       </div>
-      <div className={`px-6 py-4 flex justify-end bg-black/20 border-t border-white/5`}>
+      <div
+        className={`px-6 py-4 flex  justify-center bg-black/20 border-t border-white/5`}
+      >
         <motion.button
           className="text-sm font-medium text-white bg-white/5 hover:bg-white/10 border border-white/10 px-6 py-3 rounded-xl transition-all duration-300 backdrop-blur-md"
           onClick={() => navigate(link)}
