@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import StackIV from './stackIV'
+import QueueIV from './queueIV'
 import TreeIV from './treeIV'
 
 const tabs = [
   { id: 'stack', label: 'Stack' },
   { id: 'queue', label: 'Queue' },
   { id: 'tree', label: 'Binary Tree' },
+  { id: 'graph', label: 'Graph Builder' },
 ]
 
 export const DSLayout = () => {
@@ -44,12 +46,13 @@ export const DSLayout = () => {
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:40px_40px] opacity-10 pointer-events-none"></div>
 
         {activeTab === 'stack' && <StackIV />}
-        {activeTab === 'queue' && (
+        {activeTab === 'queue' && <QueueIV />}
+        {activeTab === 'tree' && <TreeIV />}
+        {activeTab === 'graph' && (
           <div className="flex items-center justify-center h-full text-slate-500">
-            Queue Implementation Coming Soon
+            Graph Playground Coming Soon
           </div>
         )}
-        {activeTab === 'tree' && <TreeIV />}
       </div>
     </div>
   )
