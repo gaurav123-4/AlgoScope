@@ -14,27 +14,54 @@ class TreeNode {
 export default function TreeIV() {
   const [root, setRoot] = useState(null)
   const [inputValue, setInputValue] = useState('')
-  const [treeStructure, setTreeStructure] = useState([]) // For rendering
+  const [treeStructure, setTreeStructure] = useState([])
+  const [edges, setEdges] = useState([])
 
-  // Helper to recalculate positions
+  // Helper to recalculate positions and create edges
   const updateTreePositions = (node, x, y, level) => {
-    if (!node) return []
-    const gap = 300 / (level + 1) // Dynamic gap reduction
+    if (!node) return { nodes: [], edges: [] }
+    const gap = 300 / (level + 1)
     node.x = x
     node.y = y
 
     let nodes = [{ ...node }]
-    if (node.left)
-      nodes = [
-        ...nodes,
-        ...updateTreePositions(node.left, x - gap, y + 80, level + 1),
-      ]
-    if (node.right)
-      nodes = [
-        ...nodes,
-        ...updateTreePositions(node.right, x + gap, y + 80, level + 1),
-      ]
-    return nodes
+    let edgeList = []
+
+    if (node.left) {
+      const leftResult = updateTreePositions(
+        node.left,
+        x - gap,
+        y + 80,
+        level + 1
+      )
+      nodes = [...nodes, ...leftResult.nodes]
+      edgeList = [...edgeList, ...leftResult.edges]
+      edgeList.push({
+        fromX: x,
+        fromY: y,
+        toX: node.left.x,
+        toY: node.left.y,
+      })
+    }
+
+    if (node.right) {
+      const rightResult = updateTreePositions(
+        node.right,
+        x + gap,
+        y + 80,
+        level + 1
+      )
+      nodes = [...nodes, ...rightResult.nodes]
+      edgeList = [...edgeList, ...rightResult.edges]
+      edgeList.push({
+        fromX: x,
+        fromY: y,
+        toX: node.right.x,
+        toY: node.right.y,
+      })
+    }
+
+    return { nodes, edges: edgeList }
   }
 
   const insertNode = () => {
@@ -67,9 +94,10 @@ export default function TreeIV() {
     }
 
     // Recalculate layout
-    const flattened = updateTreePositions(currentRoot, 400, 50, 1) // 400 is roughly center of canvas
+    const { nodes, edges } = updateTreePositions(currentRoot, 400, 50, 1)
     setRoot(currentRoot)
-    setTreeStructure(flattened)
+    setTreeStructure(nodes)
+    setEdges(edges)
     setInputValue('')
 
     // Animate the new node
@@ -103,6 +131,7 @@ export default function TreeIV() {
           onClick={() => {
             setRoot(null)
             setTreeStructure([])
+            setEdges([])
           }}
           className="px-6 py-2 bg-slate-700 hover:bg-slate-600 text-white font-bold rounded-lg"
         >
@@ -113,29 +142,16 @@ export default function TreeIV() {
       <div className="relative flex-1 overflow-auto bg-slate-900/20 rounded-xl border border-white/5">
         {/* SVG Layer for Edges */}
         <svg className="absolute top-0 left-0 w-full h-full pointer-events-none z-0">
-          {treeStructure.map((node) => (
-            <g key={`edge-${node.value}`}>
-              {node.left && (
-                <line
-                  x1={node.x + 24}
-                  y1={node.y + 24}
-                  x2={node.left.x + 24}
-                  y2={node.left.y + 24}
-                  stroke="#475569"
-                  strokeWidth="2"
-                />
-              )}
-              {node.right && (
-                <line
-                  x1={node.x + 24}
-                  y1={node.y + 24}
-                  x2={node.right.x + 24}
-                  y2={node.right.y + 24}
-                  stroke="#475569"
-                  strokeWidth="2"
-                />
-              )}
-            </g>
+          {edges.map((edge, index) => (
+            <line
+              key={index}
+              x1={edge.fromX + 24}
+              y1={edge.fromY + 24}
+              x2={edge.toX + 24}
+              y2={edge.toY + 24}
+              stroke="#475569"
+              strokeWidth="2"
+            />
           ))}
         </svg>
 
