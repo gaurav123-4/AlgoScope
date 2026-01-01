@@ -7,7 +7,6 @@ const tabs = [
   { id: 'stack', label: 'Stack' },
   { id: 'queue', label: 'Queue' },
   { id: 'tree', label: 'Binary Tree' },
-  { id: 'graph', label: 'Graph Builder' },
 ]
 
 export const DSLayout = () => {
@@ -51,11 +50,6 @@ export const DSLayout = () => {
           </div>
         )}
         {activeTab === 'tree' && <TreeIV />}
-        {activeTab === 'graph' && (
-          <div className="flex items-center justify-center h-full text-slate-500">
-            Graph Playground Coming Soon
-          </div>
-        )}
       </div>
     </div>
   )
