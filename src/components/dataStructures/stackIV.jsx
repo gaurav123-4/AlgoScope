@@ -52,10 +52,10 @@ export default function StackIV() {
     }
 
     const newItem = { id: Date.now() + Math.random(), value: val }
-    
+
     // Update Logical Ref
     stackRef.current.push(newItem)
-    
+
     // Update Visual State
     setStack((prev) => [...prev, newItem])
 
@@ -90,10 +90,10 @@ export default function StackIV() {
 
     // Update Logical Ref
     const popped = stackRef.current.pop()
-    
+
     // Update Visual State
     setStack((prev) => prev.slice(0, -1))
-    
+
     return popped ? popped.value : null
   }
 
@@ -120,7 +120,7 @@ export default function StackIV() {
     if (!inputValue) return
     setIsRunning(true)
     setConsoleOutput('Starting Reversal...')
-    
+
     // Phase 1: Push
     for (const char of inputValue.split('')) {
       await pushItem(char)
@@ -138,7 +138,7 @@ export default function StackIV() {
       setConsoleOutput(`Reversed: ${reversed}`)
       await sleep(SLEEP_MS / 2)
     }
-    
+
     setIsRunning(false)
   }
 
@@ -160,11 +160,13 @@ export default function StackIV() {
         // It's a closer
         setConsoleOutput(`Found closer '${char}'. Checking stack...`)
         const popped = await popItem()
-        
+
         if (!popped || popped !== closeMap[char]) {
-            setConsoleOutput(`Error: '${char}' does not match '${popped || 'empty'}'.`)
-            isValid = false
-            break
+          setConsoleOutput(
+            `Error: '${char}' does not match '${popped || 'empty'}'.`
+          )
+          isValid = false
+          break
         }
         setConsoleOutput(`Match: '${popped}' cancels '${char}'.`)
       }
@@ -178,7 +180,7 @@ export default function StackIV() {
     } else if (!isValid) {
       setConsoleOutput('Result: UNBALANCED ❌')
     }
-    
+
     setIsRunning(false)
   }
 
@@ -186,7 +188,7 @@ export default function StackIV() {
     if (!inputValue) return
     setIsRunning(true)
     setConsoleOutput('Evaluating Postfix...')
-    
+
     const tokens = inputValue.trim().split(/\s+/)
 
     for (const token of tokens) {
@@ -208,11 +210,20 @@ export default function StackIV() {
 
         let res = 0
         switch (token) {
-          case '+': res = val1 + val2; break;
-          case '-': res = val1 - val2; break;
-          case '*': res = val1 * val2; break;
-          case '/': res = Math.floor(val1 / val2); break; // Integer division
-          default: res = 0;
+          case '+':
+            res = val1 + val2
+            break
+          case '-':
+            res = val1 - val2
+            break
+          case '*':
+            res = val1 * val2
+            break
+          case '/':
+            res = Math.floor(val1 / val2)
+            break // Integer division
+          default:
+            res = 0
         }
 
         setConsoleOutput(`${val1} ${token} ${val2} = ${res}. Pushing result.`)
@@ -224,11 +235,11 @@ export default function StackIV() {
 
     const finalResult = await popItem()
     if (stackRef.current.length === 0) {
-       setConsoleOutput(`Final Result: ${finalResult} 🎉`)
-       // Optional: Push it back to show it
-       await pushItem(finalResult)
+      setConsoleOutput(`Final Result: ${finalResult} 🎉`)
+      // Optional: Push it back to show it
+      await pushItem(finalResult)
     } else {
-       setConsoleOutput('Error: Stack not empty after evaluation.')
+      setConsoleOutput('Error: Stack not empty after evaluation.')
     }
 
     setIsRunning(false)
@@ -359,8 +370,10 @@ export default function StackIV() {
   return (
     <div className="flex flex-col h-full items-center">
       {/* Mode Selector */}
-      <div className="mb-6 w-full max-w-2xl flex items-center justify-between bg-slate-800/50 p-4 rounded-xl border border-slate-700">
-        <label className="text-slate-300 font-bold mr-4">Application Mode:</label>
+      <div className="mb-6 w-full max-w-2xl flex lg:flex-row flex-col items-center justify-between bg-slate-800/50 p-4 rounded-xl border border-slate-700">
+        <label className="text-slate-300 font-bold mr-4">
+          Application Mode:
+        </label>
         <select
           value={mode}
           onChange={(e) => setMode(e.target.value)}
@@ -383,9 +396,9 @@ export default function StackIV() {
       {/* Output / Status Console */}
       <div className="h-16 w-full max-w-md text-center mb-4">
         {consoleOutput && (
-            <div className="bg-black/40 text-green-400 font-mono text-sm p-2 rounded border border-green-900/50 whitespace-pre-wrap animate-pulse">
-                {consoleOutput}
-            </div>
+          <div className="bg-black/40 text-green-400 font-mono text-sm p-2 rounded border border-green-900/50 whitespace-pre-wrap animate-pulse">
+            {consoleOutput}
+          </div>
         )}
       </div>
 
@@ -404,20 +417,22 @@ export default function StackIV() {
             <div
               key={item.id}
               id={`stack-item-${item.id}`}
-              className={`w-full h-12 rounded-md flex items-center justify-center text-white font-bold shadow-lg border border-white/10 relative z-10 transition-colors duration-300 ${ 
-                mode === MODES.BROWSER ? 'bg-gradient-to-r from-green-600 to-emerald-800' :
-                mode === MODES.POSTFIX ? 'bg-gradient-to-r from-pink-600 to-rose-800' :
-                'bg-gradient-to-r from-cyan-600 to-blue-600'
+              className={`w-full h-12 rounded-md flex items-center justify-center text-white font-bold shadow-lg border border-white/10 relative z-10 transition-colors duration-300 ${
+                mode === MODES.BROWSER
+                  ? 'bg-gradient-to-r from-green-600 to-emerald-800'
+                  : mode === MODES.POSTFIX
+                    ? 'bg-gradient-to-r from-pink-600 to-rose-800'
+                    : 'bg-gradient-to-r from-cyan-600 to-blue-600'
               }`}
             >
               <span className="truncate px-2">{item.value}</span>
               <span className="absolute right-2 text-[10px] text-white/30 font-mono">
                 {index}
               </span>
-              
+
               {/* Top Indicator */}
               {index === stack.length - 1 && (
-                <div className="absolute -right-40 top-1/2 -translate-y-1/2 flex items-center gap-3">
+                <div className="absolute -right-20 lg:-right-30 top-11 lg:top-1/2 -translate-y-1/2 flex lg:flex-row flex-col items-center gap-3">
                   <svg
                     className="w-12 h-12 text-yellow-400 filter drop-shadow-[0_0_8px_rgba(250,204,21,0.6)] animate-pulse"
                     fill="none"
@@ -432,9 +447,9 @@ export default function StackIV() {
                       d="M7 16l-4-4m0 0l4-4m-4 4h18"
                     />
                   </svg>
-                  <span className="text-yellow-400 font-black font-mono text-xl tracking-wider drop-shadow-md whitespace-nowrap">
+                  <div className="flex lg:flex-row flex-col text-yellow-400 font-black font-mono text-xl tracking-wider drop-shadow-md whitespace-nowrap">
                     TOP
-                  </span>
+                  </div>
                 </div>
               )}
             </div>
@@ -444,3 +459,4 @@ export default function StackIV() {
     </div>
   )
 }
+
