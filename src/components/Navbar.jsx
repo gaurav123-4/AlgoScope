@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 // 1. Import motion and AnimatePresence
 import { motion, AnimatePresence } from 'framer-motion'
 import githubIcon from '../assets/github-mark-white.svg'
@@ -64,7 +64,8 @@ const Line = ({ variants }) => (
 
 export const Navbar = () => {
   const [open, setOpen] = useState(false)
-  const [active, setActive] = useState('Home')
+  // Derive active state from current URL instead of local state
+  const { pathname } = useLocation()
 
   const links = [
     { name: 'Search', href: '/search' },
@@ -95,10 +96,9 @@ export const Navbar = () => {
                 <li key={link.name}>
                   <Link
                     to={link.href}
-                    onClick={() => setActive(link.name)}
                     className={`block rounded-lg px-4 py-2 text-sm font-medium transition-all duration-200 ${
-                      active === link.name
-                        ? 'bg-white/10 text-white shadow-[0_0_15px_rgba(255,255,255,0.05)]'
+                      pathname === link.href
+                        ? 'bg-indigo-500/20 text-indigo-300 ring-1 ring-indigo-500/40 font-semibold'
                         : 'text-slate-400 hover:text-white hover:bg-white/5'
                     }`}
                   >
@@ -233,13 +233,10 @@ export const Navbar = () => {
                   <motion.li key={link.name} variants={menuItemVariants}>
                     <Link
                       to={link.href}
-                      onClick={() => {
-                        setActive(link.name)
-                        setOpen(false)
-                      }}
+                      onClick={() => setOpen(false)}
                       className={`block rounded-xl px-4 py-3 text-base font-medium transition-all ${
-                        active === link.name
-                          ? 'bg-white/10 text-white'
+                        pathname === link.href
+                          ? 'bg-indigo-500/20 text-indigo-300 ring-1 ring-indigo-500/40 font-semibold'
                           : 'text-slate-400 hover:text-white hover:bg-white/5'
                       }`}
                     >
