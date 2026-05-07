@@ -12,8 +12,12 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](CONTRIBUTING.md)
 [![GSSoC'26](https://img.shields.io/badge/GSSoC-2026-orange?style=flat)](https://gssoc.girlscript.tech/)
+[![Docker Hub](https://img.shields.io/badge/Docker-Hub-2496ED?style=flat&logo=docker&logoColor=white)](https://hub.docker.com/r/bimbok/algoscope-app)
 
 Join our community for updates and support!
+
+### 🌐 Live Demo
+Experience AlgoScope in your browser: **[algoscope.onrender.com](https://algoscope.onrender.com)**
 
 ### Core Maintainers
 
@@ -112,6 +116,18 @@ npm run dev
 ```
 
 Open `http://localhost:5173/` in your browser to start exploring.
+
+### Docker Quick Start
+If you have Docker installed, you can pull and run the pre-built image:
+
+```bash
+# 1. Pull the image
+docker pull bimbok/algoscope-app:latest
+
+# 2. Run the container
+docker run -d -p 8080:80 bimbok/algoscope-app:latest
+```
+Access the app at `http://localhost:8080`.
 
 ---
 
