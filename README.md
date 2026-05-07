@@ -17,7 +17,7 @@
 Join our community for updates and support!
 
 ### 🌐 Live Demo
-Experience AlgoScope in your browser: **[algoscope.onrender.com](https://algoscope.onrender.com)**
+Experience AlgoScope in your browser: **[algo-scope-virid.vercel.app](https://algo-scope-virid.vercel.app)**
 
 ### Core Maintainers
 
