@@ -159,6 +159,88 @@ flowchart TD
     vis_renderer -- Visualization Completed/Status --> input_handler
 ```
 
+### User Workflow & Execution Logic
+```mermaid
+flowchart TD
+    %% Node Definitions
+    Start((Start))
+    End((End))
+    
+    %% User Actions
+    NavCategory["Navigate to Algorithm Category<br>(e.g., Sorting, Graph)"]
+    SelectAlgo["Select Specific Algorithm<br>(e.g., Dijkstra, Quick Sort)"]
+    SetConfig{"Configure Data & Parameters"}
+    SetNodes["Select Source & Target Nodes"]
+    SetArray["Generate or Input Array Elements"]
+    SetSpeed["Adjust Visualization Speed Slider"]
+    ClickStart(["Click 'Start' Button"])
+    
+    %% System Validation & Setup
+    ValidateInput{"Are Inputs Valid?<br>(e.g., Nodes selected?)"}
+    ShowError["Display Warning / Prompt User"]
+    InitState["Initialize Algorithm State<br>(Clear highlights, reset vars)"]
+    
+    %% Execution Loop
+    CheckDone{"Is Algorithm<br>Complete?"}
+    ExecStep["Compute Next Algorithmic Step<br>(e.g., Compare, Swap, Traverse)"]
+    UpdateState["Update Internal Data State"]
+    RenderVis["Render Visual Updates via D3/React<br>(Highlight active elements)"]
+    
+    %% Playback Control
+    CheckPause{"Is Execution<br>Paused?"}
+    WaitResume["Wait for User to click Resume"]
+    ApplyDelay["Apply Delay based on Speed Slider"]
+    
+    %% Completion
+    ShowFinal["Render Final State<br>(Highlight Shortest Path / Sorted Array)"]
+    ShowStats["Update Status Display<br>(Time taken, Steps completed)"]
+
+    %% Flow logic
+    Start --> NavCategory
+    NavCategory --> SelectAlgo
+    SelectAlgo --> SetConfig
+    
+    SetConfig -->|Graph Algorithms| SetNodes
+    SetConfig -->|Array Algorithms| SetArray
+    
+    SetNodes --> SetSpeed
+    SetArray --> SetSpeed
+    SetSpeed --> ClickStart
+    
+    ClickStart --> ValidateInput
+    ValidateInput -->|No| ShowError
+    ShowError --> SetConfig
+    
+    ValidateInput -->|Yes| InitState
+    InitState --> CheckDone
+    
+    %% The main visualization loop
+    CheckDone -->|No| ExecStep
+    ExecStep --> UpdateState
+    UpdateState --> RenderVis
+    RenderVis --> CheckPause
+    
+    CheckPause -->|Yes| WaitResume
+    WaitResume --> CheckPause
+    
+    CheckPause -->|No| ApplyDelay
+    ApplyDelay --> CheckDone
+    
+    %% Algorithm Finished
+    CheckDone -->|Yes| ShowFinal
+    ShowFinal --> ShowStats
+    ShowStats --> End
+    
+    %% Styling for clarity
+    classDef userAction fill:#2d3748,stroke:#4fd1c5,stroke-width:2px,color:#fff;
+    classDef systemAction fill:#1a202c,stroke:#63b3ed,stroke-width:2px,color:#fff;
+    classDef decision fill:#2b6cb0,stroke:#90cdf4,stroke-width:2px,color:#fff;
+    
+    class NavCategory,SelectAlgo,SetNodes,SetArray,SetSpeed,ClickStart,WaitResume userAction;
+    class InitState,ExecStep,UpdateState,RenderVis,ApplyDelay,ShowFinal,ShowStats,ShowError systemAction;
+    class SetConfig,ValidateInput,CheckDone,CheckPause decision;
+```
+
 ---
 
 ## 🤝 Contributing
