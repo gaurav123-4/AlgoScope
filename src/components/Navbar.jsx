@@ -98,7 +98,7 @@ export const Navbar = () => {
                     onClick={() => setActive(link.name)}
                     className={`block rounded-lg px-4 py-2 text-sm font-medium transition-all duration-200 ${
                       active === link.name
-                        ? 'bg-white/10 text-white shadow-[0_0_15px_rgba(255,255,255,0.05)]'
+                        ? 'bg-indigo-500/20 text-indigo-300 ring-1 ring-indigo-500/40 font-semibold' /* Active: added indigo tint + ring for high-contrast visibility (accessibility fix) */
                         : 'text-slate-400 hover:text-white hover:bg-white/5'
                     }`}
                   >
@@ -239,7 +239,7 @@ export const Navbar = () => {
                       }}
                       className={`block rounded-xl px-4 py-3 text-base font-medium transition-all ${
                         active === link.name
-                          ? 'bg-white/10 text-white'
+                          ? 'bg-indigo-500/20 text-indigo-300 ring-1 ring-indigo-500/40 font-semibold' /* Added matches desktop contrast style for consistency on mobile */
                           : 'text-slate-400 hover:text-white hover:bg-white/5'
                       }`}
                     >
@@ -264,3 +264,4 @@ export const Navbar = () => {
     </header>
   )
 }
+ 
