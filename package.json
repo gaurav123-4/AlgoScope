@@ -16,7 +16,6 @@
     "@mui/material": "^7.3.4",
     "@tailwindcss/cli": "^4.1.12",
     "animejs": "^4.2.2",
-    "flowbite-react": "^0.12.7",
     "framer-motion": "^12.23.24",
     "geist": "^1.5.1",
     "react": "^19.1.1",

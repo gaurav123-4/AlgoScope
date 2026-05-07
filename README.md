@@ -67,7 +67,7 @@ Learning Data Structures and Algorithms (DSA) is often a daunting task for stude
 | **Algorithm Coverage**      | Comprehensive support for Sorting (Quick, Merge, Bubble), Searching (Linear, Binary), and Graph Algorithms (BFS, DFS, Dijkstra). |
 | **Code Insights**           | See the actual implementation in multiple programming languages (C++, Java, Python, JS) alongside the visualization.             |
 | **Interactive Playground**  | Create custom inputs, change array sizes, and interact directly with the canvas.                                                 |
-| **Clean UI/UX**             | Modern, dark-themed interface built with Tailwind CSS v4 and Flowbite React.                                                     |
+| **Clean UI/UX**             | Modern, dark-themed interface built with Tailwind CSS v4.                                                                        |
 
 ---
 
@@ -77,7 +77,7 @@ Learning Data Structures and Algorithms (DSA) is often a daunting task for stude
 
 - **Framework:** [React 19](https://react.dev/)
 - **Build Tool:** [Vite 7](https://vitejs.dev/)
-- **Styling:** [Tailwind CSS v4](https://tailwindcss.com/), [Material UI](https://mui.com/), [Flowbite React](https://flowbite-react.com/)
+- **Styling:** [Tailwind CSS v4](https://tailwindcss.com/)
 - **Animations:** [Framer Motion](https://www.framer.com/motion/), [Anime.js](https://animejs.com/)
 - **Routing:** [React Router v7](https://reactrouter.com/)
 
