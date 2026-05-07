@@ -492,7 +492,39 @@ int main() {
 }`,
   },
   heap: {
-    javascript: `
+    javascript: `function heapSort(arr) {
+  let n = arr.length;
+  for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
+    heapify(arr, n, i);
+  }
+  for (let i = n - 1; i > 0; i--) {
+    [arr[0], arr[i]] = [arr[i], arr[0]];
+    swapVisuals(0, i);
+    heapify(arr, i, 0);
+  }
+}
+function heapify(arr, n, i) {
+  let largest = i;
+  let left = 2 * i + 1;
+  let right = 2 * i + 2;
+  highlightPivot(i);
+  if (left < n && arr[left] > arr[largest]) {
+    largest = left;
+  }
+  if (right < n && arr[right] > arr[largest]) {
+    largest = right;
+  }
+  if (largest !== i) {
+    highlightActive(largest);
+    [arr[i], arr[largest]] = [arr[largest], arr[i]];
+    swapVisuals(i, largest);
+    dehighlightActive(largest);
+    dehighlightPivot(i);
+    heapify(arr, n, largest);
+  } else {
+    dehighlightPivot(i);
+  }
+}
 `,
     python: `def heap_sort(arr):
     n = len(arr)
