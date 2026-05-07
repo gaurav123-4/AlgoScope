@@ -265,9 +265,9 @@ _For more detailed guidelines, please refer to our [Contribution Guidelines](CON
 
 ## 📞 Contact
 
-If you have any questions, feel free to reach out:
+If you have any questions or want to discuss a contribution, feel free to reach out:
 
-- **GitHub Issues:** [Create an issue](https://github.com/bim-adi/AlgoScope/issues)
+- **Primary Channel:** [GitHub Issues](https://github.com/bim-adi/AlgoScope/issues) (Best for bug reports and feature requests)
 - **Aditya Paul:** [LinkedIn](https://linkedin.com/in/aditya-paul-b8881a31b/)
 - **Bratik Mukherjee:** [LinkedIn](https://linkedin.com/in/bratik-mukherjee)
 
