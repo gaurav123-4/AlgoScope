@@ -18,6 +18,43 @@ const containerVariants = {
     },
   },
 }
+const ALGORITHMS = [
+  {
+    title: 'Sorting',
+    description: 'Visualizing Bubble, Merge, Quick, and Heap Sort.',
+    color: 'bg-slate-900/50 border-blue-500/30 hover:border-blue-400',
+    link: '/sort',
+    image: SortingImg,
+  },
+  {
+    title: 'Searching',
+    description: 'Explore BFS, DFS, and other traversal methods.',
+    color: 'bg-slate-900/50 border-cyan-500/30 hover:border-cyan-400',
+    link: '/search',
+    image: SearchingImg,
+  },
+  {
+    title: 'Graph Algorithms',
+    description: 'Dijkstra, Floyd-Warshall, and Topological Sort.',
+    color: 'bg-slate-900/50 border-purple-500/30 hover:border-purple-400',
+    link: '/spath',
+    image: GraphAlgoImg,
+  },
+  {
+    title: 'Array Search',
+    description: 'Linear and Binary search visualization.',
+    color: 'bg-slate-900/50 border-orange-500/30 hover:border-orange-400',
+    link: '/ldssearch',
+    image: LinearSearchImg,
+  },
+  {
+    title: 'Abstract Data Types',
+    description: 'Stacks, Queues, Linked Lists (Beta).',
+    color: 'bg-slate-900/50 border-emerald-500/30 hover:border-emerald-400',
+    link: '/adt',
+    image: adt,
+  },
+]
 
 export const Home = () => {
   return (
@@ -96,41 +133,16 @@ export const Home = () => {
             whileInView="visible"
             viewport={{ once: true, margin: '-100px' }}
           >
-            <AlgoCard
-              title="Sorting"
-              description="Visualizing Bubble, Merge, Quick, and Heap Sort."
-              color="bg-slate-900/50 border-blue-500/30 hover:border-blue-400"
-              link="/sort"
-              image={SortingImg}
-            />
-            <AlgoCard
-              title="Searching"
-              description="Explore BFS, DFS, and other traversal methods."
-              color="bg-slate-900/50 border-cyan-500/30 hover:border-cyan-400"
-              link="/search"
-              image={SearchingImg}
-            />
-            <AlgoCard
-              title="Graph Algorithms"
-              description="Dijkstra, Floyd-Warshall, and Topological Sort."
-              color="bg-slate-900/50 border-purple-500/30 hover:border-purple-400"
-              link="/spath"
-              image={GraphAlgoImg}
-            />
-            <AlgoCard
-              title="Array Search"
-              description="Linear and Binary search visualization."
-              color="bg-slate-900/50 border-orange-500/30 hover:border-orange-400"
-              link="/ldssearch"
-              image={LinearSearchImg}
-            />
-            <AlgoCard
-              title="Abstract Data Types"
-              description="Stacks, Queues, Linked Lists (Beta)."
-              color="bg-slate-900/50 border-emerald-500/30 hover:border-emerald-400"
-              link="/adt"
-              image={adt}
-            />
+            {ALGORITHMS.map((algo, index) => (
+              <AlgoCard
+                key={index}
+                title={algo.title}
+                description={algo.description}
+                color={algo.color}
+                link={algo.link}
+                image={algo.image}
+              />
+            ))}
           </motion.div>
         </div>
       </div>
