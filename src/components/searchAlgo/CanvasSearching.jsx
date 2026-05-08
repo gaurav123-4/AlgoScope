@@ -130,7 +130,7 @@ export const CanvasSearching = ({ algorithm, vertex, speed = 1 }) => {
     return () => {
       network.destroy()
     }
-  }, [])
+  })
 
   useEffect(() => {
     if (networkRef.current) {
