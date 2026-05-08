@@ -18,6 +18,7 @@
 Join our community for updates and support!
 
 ### 🌐 Live Demo
+
 Experience AlgoScope in your browser: **[algo-scope-virid.vercel.app](https://algo-scope-virid.vercel.app)**
 
 ### Core Maintainers
@@ -119,6 +120,7 @@ npm run dev
 Open `http://localhost:5173/` in your browser to start exploring.
 
 ### Docker Quick Start
+
 If you have Docker installed, you can pull and run the pre-built image:
 
 ```bash
@@ -128,6 +130,7 @@ docker pull bimbok/algoscope-app:latest
 # 2. Run the container
 docker run -d -p 8080:80 bimbok/algoscope-app:latest
 ```
+
 Access the app at `http://localhost:8080`.
 
 ---
