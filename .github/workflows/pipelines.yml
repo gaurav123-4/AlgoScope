@@ -1,14 +1,11 @@
 name: CI/CD Checks
 
-# This ensures the action only runs on PRs targeting the main branch,
-# preventing unnecessary runs on drafts or isolated contributor branches.
 on:
   pull_request:
     branches:
       - main
 
 jobs:
-  # JOB 1: Formatting and Linting (Code Style)
   code-quality:
     name: Lint & Format
     runs-on: ubuntu-latest
@@ -19,22 +16,20 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # Recommended for Vite/React
+          node-version: '20.19'
           cache: 'npm'
 
-      - name: Install Dependencies
-        run: npm ci
+      - name: Clean install dependencies
+        run: |
+          rm -rf node_modules package-lock.json
+          npm ci
 
       - name: Check Code Formatting (Prettier)
-        # Fails the PR if the contributor didn't format their code
         run: npx prettier --check "src/**/*.{js,jsx,css}"
 
       - name: Run Linter (ESLint)
-        # Fails the PR if there are syntax errors or bad practices
         run: npm run lint
 
-  # JOB 2: Build and Test (Functionality)
-  # Runs parallel to code-quality for faster feedback
   build-and-test:
     name: Build & Test
     runs-on: ubuntu-latest
@@ -45,16 +40,13 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '20.19'
           cache: 'npm'
 
-      - name: Install Dependencies
-        run: npm ci
+      - name: Clean install dependencies
+        run: |
+          rm -rf node_modules package-lock.json
+          npm ci
 
       - name: Build Application
-        # Fails the PR if the code causes a fatal compilation error
         run: npm run build
-
-      # uncomment the lines below to enforce testing on PRs.
-      # - name: Run Unit Tests
-      #   run: npm test
