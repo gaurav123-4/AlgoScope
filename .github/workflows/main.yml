@@ -1,12 +1,15 @@
+# .github/workflows/main.yml
+
 name: CI - Build and Push Docker Image
 
+# Run this workflow on every push to the 'main' branch
 on:
   push:
     branches: ['main']
 
 jobs:
   build_and_push:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # Use a standard Linux runner
 
     steps:
       - name: Check out the repo
@@ -21,7 +24,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/algoscope-app:latest
+          context: . # Use the current directory for the build
+          file: ./Dockerfile # The Dockerfile we created
+          push: true # Push the image to Docker Hub
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/algoscope-app:latest # Tag it as 'bimbok/algoscope-app:latest'
