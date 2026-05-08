@@ -10,6 +10,7 @@ import { DSLayout } from './components/dataStructures/DSLayout'
 import Footer from './components/Footer'
 import ArrayVisualizerPage from './components/arraySearch/VisualizerPage'
 import AboutAlgoScope from './components/about/About'
+import NotFound from './components/PageNotFound'
 
 // Shared Background Component
 const Background = () => (
@@ -158,6 +159,24 @@ function App() {
             </div>
           </motion.div>
         </>
+      ),
+    },
+    {
+      path: '*',
+      element: (
+        <motion.div
+          className={`min-h-screen flex flex-col ${darkTheme} relative`}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
+          <Background />
+
+          <div className="flex-1 flex flex-col gap-4 p-4 z-10">
+            <Navbar />
+            <NotFound />
+            <Footer />
+          </div>
+        </motion.div>
       ),
     },
   ])
