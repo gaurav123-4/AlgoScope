@@ -1,79 +1,104 @@
-import React from 'react'
+import React, { lazy, Suspense } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import AppLayout from './components/AppLayout'
-import { Home } from './components/Home'
-import SortingVisualizerPage from './components/sortingAlgo/VisualizerPage'
-import { VisualizerPage } from './components/searchAlgo/VisualizerPage'
-import { ShortestPathPage } from './components/shortestPathAlgo/ShortestPathPage'
-import { DSLayout } from './components/dataStructures/DSLayout'
-import ArrayVisualizerPage from './components/arraySearch/VisualizerPage'
-import AboutAlgoScope from './components/about/About'
-import NotFound from './components/PageNotFound'
+
+// Lazy load pages for better performance
+const Home = lazy(() => import('./components/Home').then(module => ({ default: module.Home })))
+const SortingVisualizerPage = lazy(() => import('./components/sortingAlgo/VisualizerPage'))
+const VisualizerPage = lazy(() => import('./components/searchAlgo/VisualizerPage').then(module => ({ default: module.VisualizerPage })))
+const ShortestPathPage = lazy(() => import('./components/shortestPathAlgo/ShortestPathPage').then(module => ({ default: module.ShortestPathPage })))
+const DSLayout = lazy(() => import('./components/dataStructures/DSLayout').then(module => ({ default: module.DSLayout })))
+const ArrayVisualizerPage = lazy(() => import('./components/arraySearch/VisualizerPage'))
+const AboutAlgoScope = lazy(() => import('./components/about/About'))
+const NotFound = lazy(() => import('./components/PageNotFound'))
+
+// Simple fallback for Suspense
+const PageLoader = () => (
+  <div className="flex h-screen w-full items-center justify-center bg-[#020617]">
+    <div className="h-12 w-12 animate-spin rounded-full border-4 border-cyan-500 border-t-transparent shadow-[0_0_15px_rgba(6,182,212,0.4)]"></div>
+  </div>
+)
 
 function App() {
   const route = createBrowserRouter([
     {
       path: '/',
       element: (
-        <AppLayout showBackground={false}>
-          <Home />
-        </AppLayout>
+        <Suspense fallback={<PageLoader />}>
+          <AppLayout showBackground={false}>
+            <Home />
+          </AppLayout>
+        </Suspense>
       ),
     },
     {
       path: '/search',
       element: (
-        <AppLayout>
-          <VisualizerPage />
-        </AppLayout>
+        <Suspense fallback={<PageLoader />}>
+          <AppLayout>
+            <VisualizerPage />
+          </AppLayout>
+        </Suspense>
       ),
     },
     {
       path: '/spath',
       element: (
-        <AppLayout>
-          <ShortestPathPage />
-        </AppLayout>
+        <Suspense fallback={<PageLoader />}>
+          <AppLayout>
+            <ShortestPathPage />
+          </AppLayout>
+        </Suspense>
       ),
     },
     {
       path: '/about',
       element: (
-        <AppLayout>
-          <AboutAlgoScope />
-        </AppLayout>
+        <Suspense fallback={<PageLoader />}>
+          <AppLayout>
+            <AboutAlgoScope />
+          </AppLayout>
+        </Suspense>
       ),
     },
     {
       path: '/sort',
       element: (
-        <AppLayout>
-          <SortingVisualizerPage />
-        </AppLayout>
+        <Suspense fallback={<PageLoader />}>
+          <AppLayout>
+            <SortingVisualizerPage />
+          </AppLayout>
+        </Suspense>
       ),
     },
     {
       path: '/ldssearch',
       element: (
-        <AppLayout>
-          <ArrayVisualizerPage />
-        </AppLayout>
+        <Suspense fallback={<PageLoader />}>
+          <AppLayout>
+            <ArrayVisualizerPage />
+          </AppLayout>
+        </Suspense>
       ),
     },
     {
       path: '/adt',
       element: (
-        <AppLayout>
-          <DSLayout />
-        </AppLayout>
+        <Suspense fallback={<PageLoader />}>
+          <AppLayout>
+            <DSLayout />
+          </AppLayout>
+        </Suspense>
       ),
     },
     {
       path: '*',
       element: (
-        <AppLayout>
-          <NotFound />
-        </AppLayout>
+        <Suspense fallback={<PageLoader />}>
+          <AppLayout>
+            <NotFound />
+          </AppLayout>
+        </Suspense>
       ),
     },
   ])

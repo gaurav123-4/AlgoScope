@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, memo } from 'react'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import * as themes from 'react-syntax-highlighter/dist/esm/styles/prism'
 
-export default function CodePanel({
+const CodePanel = memo(function CodePanel({
   title,
   code,
   language = 'javascript',
@@ -145,4 +145,6 @@ export default function CodePanel({
       </div>
     </div>
   )
-}
+})
+
+export default CodePanel
