@@ -94,6 +94,17 @@ const SearchBar = () => {
   const inputRef = useRef(null)
   const navigate = useNavigate()
 
+  const handleSelect = React.useCallback(
+    (route) => {
+      navigate(route)
+      setQuery('')
+      setResults([])
+      setIsOpen(false)
+      inputRef.current?.blur()
+    },
+    [navigate]
+  )
+
   // 1. Initialize Fuse.js
   const fuse = useMemo(() => {
     return new Fuse(ALGORITHMS, {
@@ -103,19 +114,21 @@ const SearchBar = () => {
     })
   }, [])
 
-  // 2. Handle Search Logic
-  useEffect(() => {
-    if (query.trim() === '') {
+  const handleSearch = (e) => {
+    const val = e.target.value
+    setQuery(val)
+
+    if (val.trim() === '') {
       setResults([])
       setIsOpen(false)
       return
     }
 
-    const searchResults = fuse.search(query)
+    const searchResults = fuse.search(val)
     setResults(searchResults)
     setIsOpen(true)
     setSelectedIndex(0)
-  }, [query, fuse])
+  }
 
   // 3. Handle Keyboard Shortcuts (Ctrl+K and Navigation)
   useEffect(() => {
@@ -147,7 +160,7 @@ const SearchBar = () => {
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [isOpen, results, selectedIndex])
+  }, [isOpen, results, selectedIndex, handleSelect])
 
   // 4. Close dropdown on click outside
   useEffect(() => {
@@ -159,13 +172,6 @@ const SearchBar = () => {
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
-
-  const handleSelect = (route) => {
-    navigate(route)
-    setQuery('')
-    setIsOpen(false)
-    inputRef.current?.blur()
-  }
 
   return (
     <div ref={searchRef} className="relative w-full max-w-sm">
@@ -190,7 +196,7 @@ const SearchBar = () => {
           ref={inputRef}
           type="text"
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={handleSearch}
           onFocus={() => query && setIsOpen(true)}
           className="w-full bg-slate-900/50 border border-slate-700 text-slate-200 text-sm rounded-xl focus:ring-1 focus:ring-cyan-500 focus:border-cyan-500 block pl-10 pr-12 py-2.5 backdrop-blur-sm transition-all outline-none"
           placeholder="Search algorithms..."
