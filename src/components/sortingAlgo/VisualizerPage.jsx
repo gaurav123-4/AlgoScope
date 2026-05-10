@@ -7,12 +7,12 @@ export default function VisualizerPage() {
 
   return (
     <motion.div
-      className="lg:w-full w-full bg-slate-950/50 mx-auto min-h-screen shadow-2xl rounded-2xl border border-white/10 backdrop-blur-xl"
+      className="lg:w-full w-full bg-slate-950/50 mx-auto min-h-screen shadow-2xl rounded-xl sm:rounded-2xl border border-white/10 backdrop-blur-xl"
       initial={{ opacity: 0, y: 20 }} // Start: invisible and 20px down
       animate={{ opacity: 1, y: 0 }} // End: fully visible at original position
       transition={{ duration: 1, ease: 'easeInOut' }} // Animation settings
     >
-      <div className="flex justify-center p-6 border-b border-white/5">
+      <div className="flex justify-center p-4 sm:p-6 border-b border-white/5">
         <select
           value={algorithmType}
           onChange={(e) => setAlgorithmType(e.target.value)}

@@ -629,7 +629,7 @@ export default function Visualizer({ algorithmType }) {
   }
 
   return (
-    <div className="flex flex-col p-4 lg:p-5">
+    <div className="flex flex-col p-2 sm:p-4 lg:p-5">
       <div className="w-full">
         <div className="flex flex-col items-center">
           <h1 className="mb-4 text-center text-2xl font-bold tracking-tight text-white lg:text-3xl">
@@ -637,9 +637,9 @@ export default function Visualizer({ algorithmType }) {
           </h1>
 
           {isBubbleSelected ? (
-            <div className="grid w-full gap-4 xl:grid-cols-[minmax(0,1.3fr)_minmax(340px,0.7fr)]">
-              <div className="flex min-h-0 flex-col gap-4">
-                <div className="rounded-2xl border border-slate-700/80 bg-slate-900/55 p-4 shadow-xl">
+            <div className="grid w-full gap-4 xl:grid-cols-[minmax(0,1.3fr)_minmax(340px,0.7fr)] overflow-hidden">
+              <div className="flex min-w-0 min-h-0 flex-col gap-4">
+                <div className="rounded-2xl border border-slate-700/80 bg-slate-900/55 p-3 sm:p-4 shadow-xl">
                   <div className="mb-3 flex items-center justify-between gap-3">
                     <h3 className="text-base font-semibold text-slate-200">
                       Array
@@ -653,7 +653,7 @@ export default function Visualizer({ algorithmType }) {
 
                   <div
                     id="container"
-                    className="flex h-[220px] items-end justify-center gap-2 overflow-hidden rounded-2xl border border-slate-700 p-4 backdrop-blur-sm lg:h-[250px]"
+                    className="flex h-[220px] items-end justify-center gap-1.5 sm:gap-2 overflow-hidden rounded-2xl border border-slate-700 p-2 sm:p-4 backdrop-blur-sm lg:h-[250px]"
                     style={{ background: 'rgba(30, 41, 59, 0.4)' }}
                   >
                     {visualArray.map((val, idx) => (
@@ -669,11 +669,11 @@ export default function Visualizer({ algorithmType }) {
                     ))}
                   </div>
 
-                  <div className="next mt-4 flex flex-wrap justify-center gap-2">
+                  <div className="next mt-4 flex flex-wrap justify-center gap-1.5 sm:gap-2">
                     {visualArray.map((item, idx) => (
                       <span
                         key={idx}
-                        className={`array-ele rounded-lg border border-slate-600 bg-slate-800 px-3 py-2 font-mono text-sm text-cyan-400 shadow-sm transition-all duration-300 ${getBubbleStateClass(
+                        className={`array-ele rounded-lg border border-slate-600 bg-slate-800 px-2 py-1.5 sm:px-3 sm:py-2 font-mono text-xs sm:text-sm text-cyan-400 shadow-sm transition-all duration-300 ${getBubbleStateClass(
                           idx
                         )}`}
                         style={getBubbleElementStyle(idx)}
@@ -685,39 +685,39 @@ export default function Visualizer({ algorithmType }) {
                 </div>
 
                 <div className="grid gap-4 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
-                  <div className="rounded-2xl border border-slate-700/80 bg-slate-900/70 p-5 shadow-xl">
+                  <div className="rounded-2xl border border-slate-700/80 bg-slate-900/70 p-4 sm:p-5 shadow-xl">
                     <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-400/80">
                       Step Insight
                     </p>
-                    <h3 className="mt-2 text-xl font-semibold text-slate-100">
+                    <h3 className="mt-2 text-lg sm:text-xl font-semibold text-slate-100">
                       {bubbleStep?.message ??
                         'Generate Bubble Sort steps to start playback.'}
                     </h3>
 
                     <div className="mt-4 grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
-                      <div className="rounded-xl border border-slate-700 bg-slate-950/70 p-4">
-                        <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+                      <div className="rounded-xl border border-slate-700 bg-slate-950/70 p-3 sm:p-4">
+                        <p className="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-slate-400">
                           Active Indices
                         </p>
-                        <p className="mt-2 font-mono text-lg text-slate-100">
+                        <p className="mt-1 sm:mt-2 font-mono text-base sm:text-lg text-slate-100">
                           {activeBubbleIndices.length > 0
                             ? activeBubbleIndices.join(', ')
                             : 'None'}
                         </p>
                       </div>
-                      <div className="rounded-xl border border-slate-700 bg-slate-950/70 p-4">
-                        <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+                      <div className="rounded-xl border border-slate-700 bg-slate-950/70 p-3 sm:p-4">
+                        <p className="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-slate-400">
                           Sorted Count
                         </p>
-                        <p className="mt-2 font-mono text-lg text-slate-100">
+                        <p className="mt-1 sm:mt-2 font-mono text-base sm:text-lg text-slate-100">
                           {sortedBubbleIndices.length}
                         </p>
                       </div>
-                      <div className="rounded-xl border border-slate-700 bg-slate-950/70 p-4">
-                        <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+                      <div className="rounded-xl border border-slate-700 bg-slate-950/70 p-3 sm:p-4">
+                        <p className="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-slate-400">
                           Variables
                         </p>
-                        <p className="mt-2 font-mono text-sm text-slate-100">
+                        <p className="mt-1 sm:mt-2 font-mono text-xs sm:text-sm text-slate-100 break-words">
                           {bubbleStep?.variables
                             ? Object.entries(bubbleStep.variables)
                                 .map(([key, value]) => `${key}: ${value}`)
@@ -728,16 +728,18 @@ export default function Visualizer({ algorithmType }) {
                     </div>
                   </div>
 
-                  <CodePanel
-                    title="Bubble Sort"
-                    code={bubbleSource.code}
-                    language={bubbleLanguage}
-                    activeLine={activeBubbleLine}
-                  />
+                  <div className="min-w-0">
+                    <CodePanel
+                      title="Bubble Sort"
+                      code={bubbleSource.code}
+                      language={bubbleLanguage}
+                      activeLine={activeBubbleLine}
+                    />
+                  </div>
                 </div>
               </div>
 
-              <div className="flex flex-col gap-4">
+              <div className="flex min-w-0 flex-col gap-4">
                 <div className="rounded-2xl border border-slate-700/80 bg-slate-900/60 p-4 shadow-xl">
                   <h3 className="text-base font-semibold text-slate-300">
                     Controls
@@ -878,18 +880,17 @@ export default function Visualizer({ algorithmType }) {
                 </h3>
                 <div
                   id="container"
-                  className="flex gap-2 items-end h-[300px] p-6 rounded-2xl border border-slate-700 shadow-xl w-full justify-center backdrop-blur-sm"
+                  className="flex gap-1.5 sm:gap-2 items-end h-[300px] p-3 sm:p-6 rounded-2xl border border-slate-700 shadow-xl w-full justify-center backdrop-blur-sm"
                   style={{ background: 'rgba(30, 41, 59, 0.4)' }}
                 >
                   {visualArray.map((val, idx) => (
                     <div
                       key={idx}
-                      className={`bar rounded-t-md transition-all duration-500 border border-cyan-900/50 shadow-[0_0_10px_rgba(6,182,212,0.2)] ${getBubbleStateClass(
+                      className={`bar rounded-t-md transition-all duration-500 border border-cyan-900/50 shadow-[0_0_10px_rgba(6,182,212,0.2)] w-6 sm:w-8 ${getBubbleStateClass(
                         idx
                       )}`}
                       style={{
                         height: `${val}px`,
-                        width: '30px',
                         background: 'rgba(6, 182, 212, 0.8)',
                       }}
                     >
@@ -901,25 +902,25 @@ export default function Visualizer({ algorithmType }) {
 
               <div
                 id="dynamic-containers"
-                className="mt-6 flex items-start justify-center gap-8"
+                className="mt-6 flex flex-col sm:flex-row items-center sm:items-start justify-center gap-4 sm:gap-8"
               >
                 {countArray.length > 0 && (
                   <CountArrayDisplay
                     title="Count Array"
                     data={countArray}
-                    barWidth={20}
+                    barWidth={16}
                   />
                 )}
                 {radixCountArray.length > 0 && (
                   <CountArrayDisplay
                     title={`Digit ${currentRadixDigit}s Count`}
                     data={radixCountArray}
-                    barWidth={25}
+                    barWidth={18}
                   />
                 )}
               </div>
 
-              <div className="next p-6 flex flex-wrap gap-2 justify-center">
+              <div className="next p-4 sm:p-6 flex flex-wrap gap-1.5 sm:gap-2 justify-center">
                 {visualArray.map((item, idx) => (
                   <span
                     key={idx}
@@ -990,7 +991,7 @@ export default function Visualizer({ algorithmType }) {
         </div>
       </div>
 
-      <div className="w-full mt-8">
+      <div className="mt-8">
         {!isBubbleSelected && <CodeDisplay algorithm={selectedAlgorithm} />}
       </div>
 

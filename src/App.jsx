@@ -34,7 +34,7 @@ function App() {
             transition={{ duration: 0.5 }}
           >
             {/* Home has its own background, so we might not need the shared one here if it conflicts, but let's keep it consistent or let Home override */}
-            <div className="flex-1 flex flex-col gap-4 p-4 z-10">
+            <div className="flex-1 flex flex-col gap-4 p-2 sm:p-4 z-10">
               <Navbar />
               <Home />
               <Footer />
@@ -54,7 +54,7 @@ function App() {
             transition={{ duration: 0.5 }}
           >
             <Background />
-            <div className="flex-1 flex flex-col gap-4 p-4 z-10">
+            <div className="flex-1 flex flex-col gap-4 p-2 sm:p-4 z-10">
               <Navbar />
               <VisualizerPage />
               <Footer />
@@ -74,7 +74,7 @@ function App() {
             transition={{ duration: 0.5 }}
           >
             <Background />
-            <div className="flex-1 flex flex-col gap-4 p-4 z-10">
+            <div className="flex-1 flex flex-col gap-4 p-2 sm:p-4 z-10">
               <Navbar />
               <ShortestPathPage />
               <Footer />
@@ -94,7 +94,7 @@ function App() {
             transition={{ duration: 0.5 }}
           >
             <Background />
-            <div className="flex-1 flex flex-col gap-4 p-4 z-10">
+            <div className="flex-1 flex flex-col gap-4 p-2 sm:p-4 z-10">
               <Navbar />
               <AboutAlgoScope />
               <Footer />
@@ -113,7 +113,7 @@ function App() {
             animate={{ opacity: 1 }}
           >
             <Background />
-            <div className="flex-1 flex flex-col gap-4 p-4 z-10">
+            <div className="flex-1 flex flex-col gap-4 p-2 sm:p-4 z-10">
               <Navbar />
               <SortingVisualizerPage />
               <Footer />
@@ -132,7 +132,7 @@ function App() {
             animate={{ opacity: 1 }}
           >
             <Background />
-            <div className="flex-1 flex flex-col gap-4 p-4 z-10">
+            <div className="flex-1 flex flex-col gap-4 p-2 sm:p-4 z-10">
               <Navbar />
               <ArrayVisualizerPage />
               <Footer />
@@ -151,7 +151,7 @@ function App() {
             animate={{ opacity: 1 }}
           >
             <Background />
-            <div className="flex-1 flex flex-col gap-4 p-4 z-10">
+            <div className="flex-1 flex flex-col gap-4 p-2 sm:p-4 z-10">
               <Navbar />
               {/* Insert the Data Structures Layout here */}
               <DSLayout />
@@ -171,7 +171,7 @@ function App() {
         >
           <Background />
 
-          <div className="flex-1 flex flex-col gap-4 p-4 z-10">
+          <div className="flex-1 flex flex-col gap-4 p-2 sm:p-4 z-10">
             <Navbar />
             <NotFound />
             <Footer />
