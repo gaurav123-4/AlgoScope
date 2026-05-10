@@ -49,16 +49,16 @@ const CodePanel = memo(function CodePanel({
   }
 
   return (
-    <div className="rounded-2xl border border-slate-700/80 bg-slate-950/90 shadow-[0_24px_80px_rgba(15,23,42,0.45)] backdrop-blur-xl">
-      <div className="flex flex-col gap-4 border-b border-slate-800 px-5 py-4">
-        <div className="flex items-center justify-between gap-4">
-          <div>
+    <div className="rounded-xl border border-slate-700/80 bg-slate-950/90 shadow-[0_18px_56px_rgba(15,23,42,0.38)] backdrop-blur-xl">
+      <div className="flex flex-col gap-3 border-b border-slate-800 px-4 py-3">
+        <div className="relative flex items-center justify-center gap-4">
+          <div className="text-center">
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-400/80">
               Live Code
             </p>
             <h3 className="text-lg font-semibold text-slate-100">{title}</h3>
           </div>
-          <div className="rounded-full border border-cyan-500/20 bg-cyan-500/10 px-3 py-1 text-xs font-medium text-cyan-200">
+          <div className="absolute right-0 top-1/2 hidden -translate-y-1/2 rounded-full border border-cyan-500/20 bg-cyan-500/10 px-3 py-1 text-xs font-medium text-cyan-200 sm:block">
             {activeLine ? `Line ${activeLine}` : 'Waiting'}
           </div>
         </div>
@@ -98,7 +98,7 @@ const CodePanel = memo(function CodePanel({
 
       <div
         ref={scrollContainerRef}
-        className="max-h-[28rem] overflow-auto rounded-b-2xl"
+        className="max-h-[24rem] overflow-auto rounded-b-xl"
       >
         <SyntaxHighlighter
           language={language}
@@ -108,9 +108,9 @@ const CodePanel = memo(function CodePanel({
           wrapLongLines={true}
           customStyle={{
             margin: 0,
-            padding: '1.25rem 1rem 1.25rem 0.75rem',
-            fontSize: '0.94rem',
-            lineHeight: '1.7',
+            padding: '1rem 0.75rem 1rem 0.5rem',
+            fontSize: '0.9rem',
+            lineHeight: '1.65',
             background: 'transparent',
           }}
           lineProps={(lineNumber) => ({
