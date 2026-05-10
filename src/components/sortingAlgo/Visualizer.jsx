@@ -1,6 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { CodeDisplay } from './CodeDisplay'
 import SpeedSlider from '../SpeedSlider.jsx'
+import CodePanel from '../visualizer/CodePanel'
+import { useStepPlayback } from '../visualizer/useStepPlayback'
+import {
+  getBubbleSortSource,
+  generateBubbleSortSteps,
+  resolveBubbleSortLine,
+} from '../../algorithms/sorting/bubbleSortSteps'
 
 const CountArrayDisplay = ({ title, data, barWidth = 20 }) => (
   <div className="flex flex-col items-center">
@@ -27,6 +34,9 @@ const CountArrayDisplay = ({ title, data, barWidth = 20 }) => (
   </div>
 )
 
+const createRandomArray = () =>
+  Array.from({ length: 8 }, () => Math.floor(Math.random() * 200) + 50)
+
 export default function Visualizer({ algorithmType }) {
   const [array, setArray] = useState([50, 120, 70, 30, 200, 90, 160])
   const [isSorting, setIsSorting] = useState(false)
@@ -35,8 +45,23 @@ export default function Visualizer({ algorithmType }) {
   const [radixCountArray, setRadixCountArray] = useState([])
   const [currentRadixDigit, setCurrentRadixDigit] = useState(1)
   const [speed, setSpeed] = useState(1)
+  const [bubbleLanguage, setBubbleLanguage] = useState('javascript')
   const barsRef = useRef([])
   const eleRef = useRef([])
+  const {
+    currentStep: bubbleStep,
+    currentStepIndex: bubbleStepIndex,
+    steps: bubbleSteps,
+    hasSteps: hasBubbleSteps,
+    isComplete: isBubbleComplete,
+    isPlaying: isBubblePlaying,
+    loadSteps: loadBubbleSteps,
+    clear: clearBubblePlayback,
+    pause: pauseBubblePlayback,
+    play: playBubblePlayback,
+    replay: replayBubblePlayback,
+    stepForward: stepBubbleForward,
+  } = useStepPlayback({ speed })
 
   // ... (keep existing state and logic until return) ...
 
@@ -44,6 +69,12 @@ export default function Visualizer({ algorithmType }) {
     barsRef.current = document.querySelectorAll('.bar')
     eleRef.current = document.querySelectorAll('.array-ele')
   }, [array])
+
+  useEffect(() => {
+    if (selectedAlgorithm === 'bubble' && bubbleStep?.array) {
+      setArray(bubbleStep.array)
+    }
+  }, [bubbleStep, selectedAlgorithm])
 
   const sleep = (ms) =>
     new Promise((r) => setTimeout(r, Math.max(0, ms / speed)))
@@ -84,24 +115,6 @@ export default function Visualizer({ algorithmType }) {
   }
 
   // --- Sorting Algorithms ---
-  const bubbleSort = async () => {
-    setIsSorting(true)
-    let arr = [...array]
-    for (let i = 0; i < arr.length; i++) {
-      for (let j = 0; j < arr.length - i - 1; j++) {
-        highlight(j, j + 1)
-        await sleep(400)
-        if (arr[j] > arr[j + 1]) {
-          ;[arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]
-          updateArrayAndVisuals(arr, j, j + 1)
-        }
-        dehighlight(j, j + 1)
-      }
-    }
-    setArray(arr)
-    setIsSorting(false)
-  }
-
   const selectionSort = async () => {
     setIsSorting(true)
     let arr = [...array]
@@ -433,7 +446,6 @@ export default function Visualizer({ algorithmType }) {
   }
 
   const sortingAlgorithms = {
-    bubble: bubbleSort,
     selection: selectionSort,
     insertion: insertionSort,
     quick: quickSort,
@@ -450,18 +462,73 @@ export default function Visualizer({ algorithmType }) {
   }
 
   const handleSort = () => {
+    if (selectedAlgorithm === 'bubble') {
+      clearDynamicArrays()
+      loadBubbleSteps(generateBubbleSortSteps(array))
+      return
+    }
+
     if (selectedAlgorithm && sortingAlgorithms[selectedAlgorithm]) {
       clearDynamicArrays()
+      clearBubblePlayback()
       sortingAlgorithms[selectedAlgorithm]()
     }
   }
 
   const handleReset = () => {
+    clearBubblePlayback()
     setSelectedAlgorithm('')
     clearDynamicArrays()
-    setArray(
-      Array.from({ length: 8 }, () => Math.floor(Math.random() * 200) + 50)
-    )
+    setArray(createRandomArray())
+  }
+
+  const isBubbleSelected = selectedAlgorithm === 'bubble'
+  const isRunning = isSorting || isBubblePlaying
+  const visualArray = isBubbleSelected && bubbleStep?.array ? bubbleStep.array : array
+  const activeBubbleIndices = isBubbleSelected ? bubbleStep?.indices ?? [] : []
+  const sortedBubbleIndices = isBubbleSelected
+    ? bubbleStep?.sortedIndices ?? []
+    : []
+  const bubbleSource = getBubbleSortSource(bubbleLanguage)
+  const activeBubbleLine = resolveBubbleSortLine(
+    bubbleLanguage,
+    bubbleStep?.lineKey
+  )
+
+  const getBubbleStateClass = (index) => {
+    if (!isBubbleSelected) {
+      return ''
+    }
+
+    if (sortedBubbleIndices.includes(index)) {
+      return 'sorted'
+    }
+
+    if (activeBubbleIndices.includes(index)) {
+      if (bubbleStep?.type === 'swap') {
+        return 'swap'
+      }
+
+      if (bubbleStep?.type === 'compare') {
+        return 'compare'
+      }
+
+      return 'active'
+    }
+
+    return ''
+  }
+
+  const handleAlgorithmChange = (event) => {
+    const nextAlgorithm = event.target.value
+
+    clearDynamicArrays()
+
+    if (nextAlgorithm !== 'bubble') {
+      clearBubblePlayback()
+    }
+
+    setSelectedAlgorithm(nextAlgorithm)
   }
 
   return (
@@ -479,10 +546,12 @@ export default function Visualizer({ algorithmType }) {
               className="flex gap-2 items-end h-[300px] p-6 rounded-2xl border border-slate-700 shadow-xl w-full justify-center backdrop-blur-sm"
               style={{ background: 'rgba(30, 41, 59, 0.4)' }}
             >
-              {array.map((val, idx) => (
+              {visualArray.map((val, idx) => (
                 <div
                   key={idx}
-                  className="bar rounded-t-md transition-all duration-500 border border-cyan-900/50 shadow-[0_0_10px_rgba(6,182,212,0.2)]"
+                  className={`bar rounded-t-md transition-all duration-500 border border-cyan-900/50 shadow-[0_0_10px_rgba(6,182,212,0.2)] ${getBubbleStateClass(
+                    idx
+                  )}`}
                   style={{
                     height: `${val}px`,
                     width: '30px',
@@ -516,10 +585,12 @@ export default function Visualizer({ algorithmType }) {
           </div>
 
           <div className="next p-6 flex flex-wrap gap-2 justify-center">
-            {array.map((item, idx) => (
+            {visualArray.map((item, idx) => (
               <span
                 key={idx}
-                className="array-ele rounded-lg transition-all duration-300 font-mono text-sm bg-slate-800 text-cyan-400 border border-slate-600 px-3 py-2 shadow-sm"
+                className={`array-ele rounded-lg transition-all duration-300 font-mono text-sm bg-slate-800 text-cyan-400 border border-slate-600 px-3 py-2 shadow-sm ${getBubbleStateClass(
+                  idx
+                )}`}
               >
                 {item}
               </span>
@@ -535,8 +606,8 @@ export default function Visualizer({ algorithmType }) {
                 <div className="relative">
                   <select
                     value={selectedAlgorithm}
-                    onChange={(e) => setSelectedAlgorithm(e.target.value)}
-                    disabled={isSorting}
+                    onChange={handleAlgorithmChange}
+                    disabled={isRunning}
                     className="w-full bg-slate-900/80 text-white text-sm border border-slate-700 rounded-xl pl-4 pr-10 py-3 transition duration-300 focus:outline-none focus:border-cyan-500 hover:border-slate-600 shadow-lg appearance-none cursor-pointer disabled:opacity-50"
                   >
                     <option value="">Choose Algorithm</option>
@@ -561,33 +632,176 @@ export default function Visualizer({ algorithmType }) {
             <div className="mt-6 gap-4 flex flex-col sm:flex-row">
               <button
                 onClick={handleSort}
-                disabled={isSorting || !selectedAlgorithm}
+                disabled={isRunning || !selectedAlgorithm}
                 className="flex-1 text-sm font-bold py-3 px-6 rounded-xl transition-all duration-300 bg-cyan-600 text-white hover:bg-cyan-500 hover:shadow-[0_0_15px_rgba(6,182,212,0.4)] disabled:opacity-50 disabled:cursor-not-allowed transform hover:-translate-y-0.5"
               >
-                {isSorting ? 'Sorting...' : 'Start Sort'}
+                {isRunning
+                  ? 'Sorting...'
+                  : isBubbleSelected
+                    ? 'Run Bubble Sort'
+                    : 'Start Sort'}
               </button>
               <button
                 onClick={handleReset}
-                disabled={isSorting}
+                disabled={isRunning}
                 className="flex-1 text-sm font-bold py-3 px-6 rounded-xl transition-all duration-300 bg-slate-700 text-white hover:bg-slate-600 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transform hover:-translate-y-0.5"
               >
                 Generate New Array
               </button>
             </div>
+
+            {isBubbleSelected && hasBubbleSteps && (
+              <div className="rounded-2xl border border-cyan-500/20 bg-slate-900/60 p-4">
+                <div className="mb-3 flex items-center justify-between gap-3">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-400/80">
+                      Playback
+                    </p>
+                    <p className="text-sm text-slate-300">
+                      Step {bubbleStepIndex + 1} of {bubbleSteps.length}
+                    </p>
+                  </div>
+                  <div className="rounded-full border border-slate-700 bg-slate-950/60 px-3 py-1 text-xs font-medium text-slate-200">
+                    {isBubblePlaying
+                      ? 'Playing'
+                      : isBubbleComplete
+                        ? 'Complete'
+                        : 'Paused'}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-3 gap-3">
+                  <button
+                    type="button"
+                    onClick={
+                      isBubblePlaying ? pauseBubblePlayback : playBubblePlayback
+                    }
+                    disabled={isBubbleComplete && !isBubblePlaying}
+                    className="rounded-xl border border-slate-700 bg-slate-800 px-3 py-2 text-sm font-medium text-slate-100 transition hover:border-cyan-500 hover:text-cyan-200 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    {isBubblePlaying ? 'Pause' : 'Play'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={stepBubbleForward}
+                    disabled={isBubblePlaying || isBubbleComplete}
+                    className="rounded-xl border border-slate-700 bg-slate-800 px-3 py-2 text-sm font-medium text-slate-100 transition hover:border-cyan-500 hover:text-cyan-200 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    Step
+                  </button>
+                  <button
+                    type="button"
+                    onClick={replayBubblePlayback}
+                    className="rounded-xl border border-slate-700 bg-slate-800 px-3 py-2 text-sm font-medium text-slate-100 transition hover:border-cyan-500 hover:text-cyan-200"
+                  >
+                    Replay
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {isBubbleSelected && (
+              <div className="rounded-2xl border border-slate-700/70 bg-slate-900/60 p-4">
+                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-cyan-400/80">
+                  Code Language
+                </p>
+                <select
+                  value={bubbleLanguage}
+                  onChange={(event) => setBubbleLanguage(event.target.value)}
+                  className="w-full rounded-xl border border-slate-700 bg-slate-950/80 px-4 py-3 text-sm text-slate-100 transition focus:border-cyan-500 focus:outline-none"
+                >
+                  <option value="javascript">JavaScript</option>
+                  <option value="python">Python</option>
+                  <option value="java">Java</option>
+                  <option value="cpp">C++</option>
+                </select>
+              </div>
+            )}
           </div>
         </div>
       </div>
 
       <div className="w-full mt-8">
-        <CodeDisplay algorithm={selectedAlgorithm} />
+        {isBubbleSelected ? (
+          <div className="grid gap-6 xl:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]">
+            <div className="rounded-2xl border border-slate-700/80 bg-slate-900/70 p-6 shadow-xl">
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-400/80">
+                Step Insight
+              </p>
+              <h3 className="mt-2 text-2xl font-semibold text-slate-100">
+                {bubbleStep?.message ?? 'Generate Bubble Sort steps to start playback.'}
+              </h3>
+
+              <div className="mt-6 grid gap-3 sm:grid-cols-3">
+                <div className="rounded-xl border border-slate-700 bg-slate-950/70 p-4">
+                  <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+                    Active Indices
+                  </p>
+                  <p className="mt-2 font-mono text-lg text-slate-100">
+                    {activeBubbleIndices.length > 0
+                      ? activeBubbleIndices.join(', ')
+                      : 'None'}
+                  </p>
+                </div>
+                <div className="rounded-xl border border-slate-700 bg-slate-950/70 p-4">
+                  <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+                    Sorted Count
+                  </p>
+                  <p className="mt-2 font-mono text-lg text-slate-100">
+                    {sortedBubbleIndices.length}
+                  </p>
+                </div>
+                <div className="rounded-xl border border-slate-700 bg-slate-950/70 p-4">
+                  <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+                    Variables
+                  </p>
+                  <p className="mt-2 font-mono text-sm text-slate-100">
+                    {bubbleStep?.variables
+                      ? Object.entries(bubbleStep.variables)
+                          .map(([key, value]) => `${key}: ${value}`)
+                          .join('  ')
+                      : 'n/a'}
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-6 rounded-xl border border-slate-800 bg-slate-950/60 p-4">
+                <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+                  Synchronization
+                </p>
+                <p className="mt-2 text-sm leading-6 text-slate-300">
+                  Each playback step owns the array snapshot, active indices,
+                  explanation text, and source line. The chart and code panel
+                  both render from that same step object, so they stay aligned
+                  by construction.
+                </p>
+              </div>
+            </div>
+
+            <CodePanel
+              title="Bubble Sort"
+              code={bubbleSource.code}
+              language={bubbleLanguage}
+              activeLine={activeBubbleLine}
+            />
+          </div>
+        ) : (
+          <CodeDisplay algorithm={selectedAlgorithm} />
+        )}
       </div>
 
       <style>{`
         .array-ele.active { background: #10b981 !important; color: white; border-color: #059669; transform: scale(1.1); }
+        .array-ele.compare { background: #2563eb !important; color: white; border-color: #3b82f6; transform: scale(1.12); box-shadow: 0 0 0 1px rgba(147, 197, 253, 0.55), 0 0 18px rgba(59, 130, 246, 0.35); }
+        .array-ele.swap { background: #f59e0b !important; color: white; border-color: #d97706; transform: scale(1.1); }
+        .array-ele.sorted { background: #0891b2 !important; color: white; border-color: #06b6d4; }
         .array-ele.pivot { background: #f43f5e !important; color: white; border-color: #e11d48; }
         .array-ele.min { background: #8b5cf6 !important; color: white; border-color: #7c3aed; }
         
         .bar.active { background: #10b981 !important; box-shadow: 0 0 15px rgba(16, 185, 129, 0.5); border-color: #059669; }
+        .bar.compare { background: #2563eb !important; box-shadow: 0 0 18px rgba(59, 130, 246, 0.55); border-color: #60a5fa; transform: translateY(-4px); }
+        .bar.swap { background: #f59e0b !important; box-shadow: 0 0 15px rgba(245, 158, 11, 0.45); border-color: #d97706; }
+        .bar.sorted { background: #0891b2 !important; box-shadow: 0 0 15px rgba(6, 182, 212, 0.45); border-color: #06b6d4; }
         .bar.pivot { background: #f43f5e !important; box-shadow: 0 0 15px rgba(244, 63, 94, 0.5); border-color: #e11d48; }
         .bar.min { background: #8b5cf6 !important; box-shadow: 0 0 15px rgba(139, 92, 246, 0.5); border-color: #7c3aed; }
         

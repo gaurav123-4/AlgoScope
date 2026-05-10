@@ -3,56 +3,6 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import * as themes from 'react-syntax-highlighter/dist/esm/styles/prism'
 
 const codeSnippets = {
-  bubble: {
-    javascript: `function bubbleSort(arr) {
-  for (let i = 0; i < arr.length; i++) {
-    for (let j = 0; j < arr.length - i - 1; j++) {
-      highlight(j, j + 1);
-      if (arr[j] > arr[j + 1]) {
-        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
-        swapVisuals(j, j + 1);
-      }
-      dehighlight(j, j + 1);
-    }
-  }
-}`,
-    python: `def bubble_sort(arr):
-    n = len(arr)
-    for i in range(n):
-        for j in range(0, n - i - 1):
-            highlight(j, j + 1)
-            if arr[j] > arr[j + 1]:
-                arr[j], arr[j + 1] = arr[j + 1], arr[j]
-                swap_visuals(j, j + 1)
-            dehighlight(j, j + 1)`,
-    java: `public void bubbleSort(int[] arr) {
-    int n = arr.length;
-    for (int i = 0; i < n - 1; i++) {
-        for (int j = 0; j < n - i - 1; j++) {
-            highlight(j, j + 1);
-            if (arr[j] > arr[j + 1]) {
-                int temp = arr[j];
-                arr[j] = arr[j + 1];
-                arr[j + 1] = temp;
-                swapVisuals(j, j + 1);
-            }
-            dehighlight(j, j + 1);
-        }
-    }
-}`,
-    cpp: `void bubbleSort(int arr[], int n) {
-    for (int i = 0; i < n - 1; i++) {
-        for (int j = 0; j < n - i - 1; j++) {
-            highlight(j, j + 1);
-            if (arr[j] > arr[j + 1]) {
-                swap(arr[j], arr[j + 1]);
-                swapVisuals(j, j + 1);
-            }
-            dehighlight(j, j + 1);
-        }
-    }
-}`,
-  },
   selection: {
     javascript: `function selectionSort(arr) {
   for (let i = 0; i < arr.length; i++) {
