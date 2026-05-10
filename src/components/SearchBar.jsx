@@ -1,43 +1,98 @@
-import React, { useState, useMemo, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Fuse from 'fuse.js';
+import React, { useState, useMemo, useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
+import Fuse from 'fuse.js'
 
 const ALGORITHMS = [
   // Sorting
   { id: 'bubble', name: 'Bubble Sort', category: 'Sorting', route: '/sort' },
-  { id: 'selection', name: 'Selection Sort', category: 'Sorting', route: '/sort' },
-  { id: 'insertion', name: 'Insertion Sort', category: 'Sorting', route: '/sort' },
+  {
+    id: 'selection',
+    name: 'Selection Sort',
+    category: 'Sorting',
+    route: '/sort',
+  },
+  {
+    id: 'insertion',
+    name: 'Insertion Sort',
+    category: 'Sorting',
+    route: '/sort',
+  },
   { id: 'quick', name: 'Quick Sort', category: 'Sorting', route: '/sort' },
   { id: 'merge', name: 'Merge Sort', category: 'Sorting', route: '/sort' },
   { id: 'heap', name: 'Heap Sort', category: 'Sorting', route: '/sort' },
-  { id: 'counting', name: 'Counting Sort', category: 'Sorting', route: '/sort' },
+  {
+    id: 'counting',
+    name: 'Counting Sort',
+    category: 'Sorting',
+    route: '/sort',
+  },
   { id: 'radix', name: 'Radix Sort', category: 'Sorting', route: '/sort' },
   // Searching (Graph)
-  { id: 'bfs', name: 'BFS (Breadth First Search)', category: 'Searching', route: '/search' },
-  { id: 'dfs', name: 'DFS (Depth First Search)', category: 'Searching', route: '/search' },
+  {
+    id: 'bfs',
+    name: 'BFS (Breadth First Search)',
+    category: 'Searching',
+    route: '/search',
+  },
+  {
+    id: 'dfs',
+    name: 'DFS (Depth First Search)',
+    category: 'Searching',
+    route: '/search',
+  },
   // Shortest Path
-  { id: 'dijkstra', name: 'Dijkstra', category: 'Shortest Path', route: '/spath' },
-  { id: 'floyd', name: 'Floyd-Warshall', category: 'Shortest Path', route: '/spath' },
+  {
+    id: 'dijkstra',
+    name: 'Dijkstra',
+    category: 'Shortest Path',
+    route: '/spath',
+  },
+  {
+    id: 'floyd',
+    name: 'Floyd-Warshall',
+    category: 'Shortest Path',
+    route: '/spath',
+  },
   // Array Search
-  { id: 'linear', name: 'Linear Search', category: 'Array Search', route: '/ldssearch' },
-  { id: 'binary', name: 'Binary Search', category: 'Array Search', route: '/ldssearch' },
+  {
+    id: 'linear',
+    name: 'Linear Search',
+    category: 'Array Search',
+    route: '/ldssearch',
+  },
+  {
+    id: 'binary',
+    name: 'Binary Search',
+    category: 'Array Search',
+    route: '/ldssearch',
+  },
   // ADTs
   { id: 'stack', name: 'Stack', category: 'Data Structures', route: '/adt' },
   { id: 'queue', name: 'Queue', category: 'Data Structures', route: '/adt' },
-  { id: 'tree', name: 'Binary Tree', category: 'Data Structures', route: '/adt' },
+  {
+    id: 'tree',
+    name: 'Binary Tree',
+    category: 'Data Structures',
+    route: '/adt',
+  },
   // General
-  { id: 'about', name: 'About AlgoScope', category: 'General', route: '/about' },
-];
+  {
+    id: 'about',
+    name: 'About AlgoScope',
+    category: 'General',
+    route: '/about',
+  },
+]
 
 const SearchBar = () => {
-  const [query, setQuery] = useState('');
-  const [results, setResults] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  
-  const searchRef = useRef(null);
-  const inputRef = useRef(null);
-  const navigate = useNavigate();
+  const [query, setQuery] = useState('')
+  const [results, setResults] = useState([])
+  const [isOpen, setIsOpen] = useState(false)
+  const [selectedIndex, setSelectedIndex] = useState(0)
+
+  const searchRef = useRef(null)
+  const inputRef = useRef(null)
+  const navigate = useNavigate()
 
   // 1. Initialize Fuse.js
   const fuse = useMemo(() => {
@@ -45,80 +100,90 @@ const SearchBar = () => {
       keys: ['name', 'category'],
       threshold: 0.4, // Adjust for more/less "fuzziness"
       includeMatches: true,
-    });
-  }, []);
+    })
+  }, [])
 
   // 2. Handle Search Logic
   useEffect(() => {
     if (query.trim() === '') {
-      setResults([]);
-      setIsOpen(false);
-      return;
+      setResults([])
+      setIsOpen(false)
+      return
     }
 
-    const searchResults = fuse.search(query);
-    setResults(searchResults);
-    setIsOpen(true);
-    setSelectedIndex(0);
-  }, [query, fuse]);
+    const searchResults = fuse.search(query)
+    setResults(searchResults)
+    setIsOpen(true)
+    setSelectedIndex(0)
+  }, [query, fuse])
 
   // 3. Handle Keyboard Shortcuts (Ctrl+K and Navigation)
   useEffect(() => {
     const handleKeyDown = (e) => {
       // Ctrl+K to focus
       if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-        e.preventDefault();
-        inputRef.current?.focus();
+        e.preventDefault()
+        inputRef.current?.focus()
       }
 
-      if (!isOpen) return;
+      if (!isOpen) return
 
       // Dropdown Navigation
       if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        setSelectedIndex((prev) => (prev + 1) % results.length);
+        e.preventDefault()
+        setSelectedIndex((prev) => (prev + 1) % results.length)
       } else if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        setSelectedIndex((prev) => (prev - 1 + results.length) % results.length);
+        e.preventDefault()
+        setSelectedIndex((prev) => (prev - 1 + results.length) % results.length)
       } else if (e.key === 'Enter') {
-        e.preventDefault();
+        e.preventDefault()
         if (results[selectedIndex]) {
-          handleSelect(results[selectedIndex].item.route);
+          handleSelect(results[selectedIndex].item.route)
         }
       } else if (e.key === 'Escape') {
-        setIsOpen(false);
+        setIsOpen(false)
       }
-    };
+    }
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, results, selectedIndex]);
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [isOpen, results, selectedIndex])
 
   // 4. Close dropdown on click outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (searchRef.current && !searchRef.current.contains(e.target)) {
-        setIsOpen(false);
+        setIsOpen(false)
       }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   const handleSelect = (route) => {
-    navigate(route);
-    setQuery('');
-    setIsOpen(false);
-    inputRef.current?.blur();
-  };
+    navigate(route)
+    setQuery('')
+    setIsOpen(false)
+    inputRef.current?.blur()
+  }
 
   return (
     <div ref={searchRef} className="relative w-full max-w-sm">
       {/* Search Input */}
       <div className="relative group">
         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-          <svg className="w-4 h-4 text-slate-400 group-focus-within:text-cyan-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          <svg
+            className="w-4 h-4 text-slate-400 group-focus-within:text-cyan-400 transition-colors"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
           </svg>
         </div>
         <input
@@ -147,16 +212,32 @@ const SearchBar = () => {
                 onClick={() => handleSelect(result.item.route)}
                 onMouseEnter={() => setSelectedIndex(index)}
                 className={`flex items-center justify-between px-4 py-3 cursor-pointer transition-colors ${
-                  index === selectedIndex ? 'bg-indigo-500/20 text-indigo-300' : 'text-slate-400 hover:bg-slate-800'
+                  index === selectedIndex
+                    ? 'bg-indigo-500/20 text-indigo-300'
+                    : 'text-slate-400 hover:bg-slate-800'
                 }`}
               >
                 <div className="flex flex-col">
-                  <span className="text-sm font-medium">{result.item.name}</span>
-                  <span className="text-[10px] uppercase tracking-wider text-slate-500">{result.item.category}</span>
+                  <span className="text-sm font-medium">
+                    {result.item.name}
+                  </span>
+                  <span className="text-[10px] uppercase tracking-wider text-slate-500">
+                    {result.item.category}
+                  </span>
                 </div>
                 {index === selectedIndex && (
-                  <svg className="w-4 h-4 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  <svg
+                    className="w-4 h-4 text-indigo-400"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
                   </svg>
                 )}
               </li>
@@ -165,7 +246,7 @@ const SearchBar = () => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default SearchBar;
+export default SearchBar
