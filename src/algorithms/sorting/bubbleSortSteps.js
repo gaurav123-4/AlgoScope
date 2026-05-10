@@ -113,7 +113,9 @@ export function resolveBubbleSortLine(language, lineKey) {
   }
 
   const source = getBubbleSortSource(language)
-  return source.lineMap[lineKey] ?? bubbleSortSources.javascript.lineMap[lineKey]
+  return (
+    source.lineMap[lineKey] ?? bubbleSortSources.javascript.lineMap[lineKey]
+  )
 }
 
 export function generateBubbleSortSteps(inputArray) {

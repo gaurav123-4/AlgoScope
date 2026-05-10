@@ -484,10 +484,13 @@ export default function Visualizer({ algorithmType }) {
 
   const isBubbleSelected = selectedAlgorithm === 'bubble'
   const isRunning = isSorting || isBubblePlaying
-  const visualArray = isBubbleSelected && bubbleStep?.array ? bubbleStep.array : array
-  const activeBubbleIndices = isBubbleSelected ? bubbleStep?.indices ?? [] : []
+  const visualArray =
+    isBubbleSelected && bubbleStep?.array ? bubbleStep.array : array
+  const activeBubbleIndices = isBubbleSelected
+    ? (bubbleStep?.indices ?? [])
+    : []
   const sortedBubbleIndices = isBubbleSelected
-    ? bubbleStep?.sortedIndices ?? []
+    ? (bubbleStep?.sortedIndices ?? [])
     : []
   const bubbleSource = getBubbleSortSource(bubbleLanguage)
   const activeBubbleLine = resolveBubbleSortLine(
@@ -988,9 +991,7 @@ export default function Visualizer({ algorithmType }) {
       </div>
 
       <div className="w-full mt-8">
-        {!isBubbleSelected && (
-          <CodeDisplay algorithm={selectedAlgorithm} />
-        )}
+        {!isBubbleSelected && <CodeDisplay algorithm={selectedAlgorithm} />}
       </div>
 
       <style>{`
