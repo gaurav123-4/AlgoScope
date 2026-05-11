@@ -27,6 +27,7 @@ const DSLayout = lazy(() =>
 const ArrayVisualizerPage = lazy(
   () => import('./components/arraySearch/VisualizerPage')
 )
+const PracticePage = lazy(() => import('./components/PracticePage'))
 const AboutAlgoScope = lazy(() => import('./components/about/About'))
 const NotFound = lazy(() => import('./components/PageNotFound'))
 
@@ -65,6 +66,16 @@ function App() {
         <Suspense fallback={<PageLoader />}>
           <AppLayout>
             <ShortestPathPage />
+          </AppLayout>
+        </Suspense>
+      ),
+    },
+    {
+      path: '/practice',
+      element: (
+        <Suspense fallback={<PageLoader />}>
+          <AppLayout>
+            <PracticePage />
           </AppLayout>
         </Suspense>
       ),
