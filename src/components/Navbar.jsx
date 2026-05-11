@@ -72,6 +72,7 @@ export const Navbar = () => {
     { name: 'Search', href: '/search' },
     { name: 'Shortest Path', href: '/spath' },
     { name: 'Sort', href: '/sort' },
+    { name: 'Practice', href: '/practice' },
     { name: 'About', href: '/about' },
   ]
 
