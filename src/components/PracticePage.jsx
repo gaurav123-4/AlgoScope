@@ -6,10 +6,28 @@ const PracticePage = () => {
   const [code, setCode] = useState('// Write your algorithm here...\n')
 
   const languages = [
-    { label: 'JavaScript', value: 'javascript', default: '// Write your algorithm here...\n' },
-    { label: 'Python', value: 'python', default: '# Write your algorithm here...\n' },
-    { label: 'Java', value: 'java', default: 'public class Main {\n  public static void main(String[] args) {\n    // Write your algorithm here...\n  }\n}\n' },
-    { label: 'C++', value: 'cpp', default: '#include <iostream>\n\nint main() {\n  // Write your algorithm here...\n  return 0;\n}\n' },
+    {
+      label: 'JavaScript',
+      value: 'javascript',
+      default: '// Write your algorithm here...\n',
+    },
+    {
+      label: 'Python',
+      value: 'python',
+      default: '# Write your algorithm here...\n',
+    },
+    {
+      label: 'Java',
+      value: 'java',
+      default:
+        'public class Main {\n  public static void main(String[] args) {\n    // Write your algorithm here...\n  }\n}\n',
+    },
+    {
+      label: 'C++',
+      value: 'cpp',
+      default:
+        '#include <iostream>\n\nint main() {\n  // Write your algorithm here...\n  return 0;\n}\n',
+    },
   ]
 
   const handleLanguageChange = (e) => {
@@ -28,7 +46,8 @@ const PracticePage = () => {
         <div className="mb-6">
           <h1 className="text-3xl font-bold mb-2">Practice Code</h1>
           <p className="text-slate-400">
-            Hone your algorithm skills by writing code in your favorite language.
+            Hone your algorithm skills by writing code in your favorite
+            language.
           </p>
         </div>
 
@@ -57,8 +76,13 @@ const PracticePage = () => {
               <ul className="text-sm text-slate-400 space-y-2 list-disc pl-4">
                 <li>Select your preferred programming language.</li>
                 <li>Write your algorithm or code snippet in the editor.</li>
-                <li>The editor supports syntax highlighting and basic autocompletion.</li>
-                <li>(Coming Soon) Run and test your code directly in the browser!</li>
+                <li>
+                  The editor supports syntax highlighting and basic
+                  autocompletion.
+                </li>
+                <li>
+                  (Coming Soon) Run and test your code directly in the browser!
+                </li>
               </ul>
             </div>
           </div>
