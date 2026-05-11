@@ -18,7 +18,7 @@ const CodeEditor = ({
   }
 
   return (
-    <div className="flex flex-col w-full h-[500px] border border-gray-700 rounded-lg overflow-hidden bg-[#1e1e1e]">
+    <div className="flex flex-col w-full h-[700px] border border-gray-700 rounded-lg overflow-hidden bg-[#1e1e1e]">
       {/* Editor Header / Toolbar */}
       <div className="flex items-center justify-between px-4 py-2 bg-gray-800 border-b border-gray-700">
         <div className="flex items-center gap-2">

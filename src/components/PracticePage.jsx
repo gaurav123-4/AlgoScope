@@ -23,18 +23,18 @@ const PracticePage = () => {
   }
 
   return (
-    <div className="min-h-[calc(100vh-64px)] bg-[#020617] text-white p-4 md:p-8">
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-8">
+    <div className="min-h-[calc(100vh-64px)] bg-[#020617] text-white p-4 md:p-6">
+      <div className="max-w-full mx-auto px-2 md:px-6">
+        <div className="mb-6">
           <h1 className="text-3xl font-bold mb-2">Practice Code</h1>
           <p className="text-slate-400">
             Hone your algorithm skills by writing code in your favorite language.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <div className="flex flex-col lg:flex-row gap-6">
           {/* Controls Panel */}
-          <div className="lg:col-span-1 space-y-6">
+          <div className="w-full lg:w-64 flex-shrink-0 space-y-6">
             <div className="bg-slate-900/50 border border-slate-800 p-6 rounded-2xl">
               <label className="block text-sm font-semibold text-slate-400 mb-2">
                 Select Language
@@ -64,7 +64,7 @@ const PracticePage = () => {
           </div>
 
           {/* Editor Panel */}
-          <div className="lg:col-span-3">
+          <div className="flex-grow">
             <CodeEditor
               language={language}
               defaultCode={code}
