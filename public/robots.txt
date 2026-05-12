@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://algoscope.vercel.app/sitemap.xml
+Sitemap: https://algo-scope-virid.vercel.app/sitemap.xml

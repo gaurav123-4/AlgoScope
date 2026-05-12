@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 
 const SITE_NAME = 'AlgoScope'
-const SITE_URL = 'https://algoscope.vercel.app'
+const SITE_URL = 'https://algo-scope-virid.vercel.app'
 const DEFAULT_IMAGE = `${SITE_URL}/preview.png`
 const DEFAULT_TITLE = 'AlgoScope | Interactive Algorithm Visualizer'
 const DEFAULT_DESCRIPTION =
