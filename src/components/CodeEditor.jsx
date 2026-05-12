@@ -60,6 +60,7 @@ const CodeEditor = ({
             lineNumbersMinChars: 3,
             cursorSmoothCaretAnimation: 'on',
             smoothScrolling: true,
+            fontLigatures: true,
           }}
         />
       </div>
