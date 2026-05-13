@@ -6,6 +6,7 @@ import { MenuSetAlgoShortestPath } from './MenuSetAlgoShortestPath'
 import { motion } from 'framer-motion'
 import SpeedSlider from '../SpeedSlider'
 import { shortestPathSources } from '../../algorithms/searching/shortestPathSources'
+import ComplexityCard from '../ComplexityCard'
 
 export const ShortestPathPage = () => {
   const [algorithm, setAlgorithm] = useState(null)
@@ -40,7 +41,7 @@ export const ShortestPathPage = () => {
       transition={{ duration: 1, ease: 'easeInOut' }} // Animation settings
     >
       {/* Left Panel: Controls */}
-      <div className="w-full lg:w-1/4 xl:w-1/5 p-4 sm:p-6 space-y-6 bg-slate-900/80 shadow-xl rounded-xl border border-white/5 backdrop-blur-sm">
+      <div className="w-full lg:w-1/4 xl:w-1/5 p-4 flex flex-col justify-between bg-slate-900/80 shadow-xl rounded-xl border border-white/5 backdrop-blur-sm">
         <h2 className="text-2xl font-bold text-center text-white border-b border-white/10 pb-4 tracking-tight">
           Controls
         </h2>
@@ -67,6 +68,7 @@ export const ShortestPathPage = () => {
             <option value="cpp">C++</option>
           </select>
         </div>
+        <ComplexityCard algorithm={algorithm} />
       </div>
 
       {/* Right Panel: Visualization and Code */}

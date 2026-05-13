@@ -13,15 +13,15 @@ const StatusDisplay = ({ message }) => {
     <>
       <div
         className={`
-          flex items-center gap-4 
-          w-full max-w-lg m-auto p-4 mt-8 
-          rounded-xl border-l-4 border-l-cyan-500 border-y border-r border-slate-700/50
-          bg-slate-900/80 backdrop-blur-md
-          shadow-lg shadow-cyan-900/20
-          
-          {/* --- Animation classes --- */}
-          transition-all duration-500 ease-out
-          ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
+        flex items-center gap-4
+        w-full max-w-3xl mx-auto
+        px-4 py-3 mt-4
+        rounded-xl border-l-4 border-l-cyan-500
+        border border-slate-700/50
+        bg-slate-900/80 backdrop-blur-md
+        shadow-lg shadow-cyan-900/20
+        transition-all duration-500 ease-out
+        ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
         `}
       >
         {/* 1. Icon */}

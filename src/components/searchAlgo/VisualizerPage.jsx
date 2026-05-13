@@ -6,6 +6,7 @@ import { MenuSelectAlgorithm } from './MenuSelectAlgorithm'
 import { motion } from 'framer-motion'
 import SpeedSlider from '../SpeedSlider'
 import { graphSearchSources } from '../../algorithms/searching/graphSearchSources'
+import ComplexityCard from '../ComplexityCard'
 
 export const VisualizerPage = () => {
   const [node, setNode] = useState(null)
@@ -31,7 +32,7 @@ export const VisualizerPage = () => {
         transition={{ duration: 1, ease: 'easeInOut' }} // Animation settings
       >
         {/* Left Panel: Controls */}
-        <div className="w-full lg:w-1/4 xl:w-1/5 p-4 sm:p-6 space-y-6 bg-slate-900/80 shadow-xl rounded-xl border border-white/5 backdrop-blur-sm">
+        <div className="w-full lg:w-1/4 xl:w-1/5 p-4 flex flex-col justify-between bg-slate-900/80 shadow-xl rounded-xl border border-white/5 backdrop-blur-sm">
           <h2 className="text-2xl font-bold text-center text-white border-b border-white/10 pb-4 tracking-tight">
             Controls
           </h2>
@@ -56,6 +57,7 @@ export const VisualizerPage = () => {
               <option value="cpp">C++</option>
             </select>
           </div>
+          <ComplexityCard algorithm={algorithm} />
         </div>
 
         {/* Right Panel: Visualization and Code */}
