@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import StatusDisplay from '../StatusDisplay'
+import ComplexityCard from '../ComplexityCard'
 
 export const CanvasShortestPath = ({
   algorithm,
@@ -458,7 +459,9 @@ export const CanvasShortestPath = ({
           {physics ? 'Physics ON' : 'Physics PAUSED'}
         </button>
       </div>
-      <StatusDisplay message={status} />
+      <div className="mt-2 mb-4">
+        <StatusDisplay message={status} />
+      </div>
     </div>
   )
 }
