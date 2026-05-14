@@ -25,6 +25,7 @@ const ALGORITHMS = [
     color: 'bg-slate-900/50 border-blue-500/30 hover:border-blue-400',
     link: '/sort',
     image: SortingImg,
+    imageAlt: 'Array elements being rearranged for sorting algorithms',
   },
   {
     title: 'Searching',
@@ -32,6 +33,7 @@ const ALGORITHMS = [
     color: 'bg-slate-900/50 border-cyan-500/30 hover:border-cyan-400',
     link: '/search',
     image: SearchingImg,
+    imageAlt: 'Graph traversal nodes and paths for searching algorithms',
   },
   {
     title: 'Graph Algorithms',
@@ -39,6 +41,7 @@ const ALGORITHMS = [
     color: 'bg-slate-900/50 border-purple-500/30 hover:border-purple-400',
     link: '/spath',
     image: GraphAlgoImg,
+    imageAlt: 'Weighted graph path visualization for shortest path algorithms',
   },
   {
     title: 'Array Search',
@@ -46,6 +49,7 @@ const ALGORITHMS = [
     color: 'bg-slate-900/50 border-orange-500/30 hover:border-orange-400',
     link: '/ldssearch',
     image: LinearSearchImg,
+    imageAlt: 'Array search visualization highlighting a target value',
   },
   {
     title: 'Abstract Data Types',
@@ -53,6 +57,7 @@ const ALGORITHMS = [
     color: 'bg-slate-900/50 border-emerald-500/30 hover:border-emerald-400',
     link: '/adt',
     image: adt,
+    imageAlt: 'Stack, queue, and linked list data structure visualization',
   },
 ]
 
@@ -141,6 +146,7 @@ export const Home = () => {
                 color={algo.color}
                 link={algo.link}
                 image={algo.image}
+                imageAlt={algo.imageAlt}
               />
             ))}
           </motion.div>

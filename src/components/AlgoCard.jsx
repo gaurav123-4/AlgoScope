@@ -7,6 +7,7 @@ export default function AlgoCard({
   color = 'bg-yellow-100',
   link,
   image,
+  imageAlt,
 }) {
   const navigate = useNavigate()
 
@@ -51,7 +52,7 @@ export default function AlgoCard({
           >
             <img
               src={image}
-              alt={`${title} visualization`}
+              alt={imageAlt || `${title} visualization`}
               className="max-w-full h-40 w-auto object-contain rounded-lg opacity-90 hover:opacity-100 transition-opacity"
             />
           </motion.div>
