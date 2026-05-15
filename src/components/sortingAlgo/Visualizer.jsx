@@ -1,9 +1,9 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import SpeedSlider from '../SpeedSlider.jsx'
 import CodePanel from '../visualizer/CodePanel'
 import { useStepPlayback } from '../visualizer/useStepPlayback'
 
-// Step Generators and Source Resolvers
 import * as bubble from '../../algorithms/sorting/bubbleSortSteps'
 import * as selection from '../../algorithms/sorting/selectionSortSteps'
 import * as insertion from '../../algorithms/sorting/insertionSortSteps'
@@ -32,6 +32,7 @@ export default function Visualizer({ algorithmType }) {
   const [selectedAlgorithm, setSelectedAlgorithm] = useState('')
   const [speed, setSpeed] = useState(1)
   const [language, setLanguage] = useState('javascript')
+  const [searchParams, setSearchParams] = useSearchParams()
 
   const {
     currentStep,
@@ -47,6 +48,13 @@ export default function Visualizer({ algorithmType }) {
     replay: replayPlayback,
     stepForward,
   } = useStepPlayback({ speed })
+
+  useEffect(() => {
+    const algoFromUrl = searchParams.get('algo')
+    if (algoFromUrl && algoMap[algoFromUrl]) {
+      setSelectedAlgorithm(algoFromUrl)
+    }
+  }, [])
 
   const algorithmOptions = {
     simple: ['bubble', 'selection', 'insertion'],
@@ -70,6 +78,7 @@ export default function Visualizer({ algorithmType }) {
   const handleReset = () => {
     clearPlayback()
     setSelectedAlgorithm('')
+    setSearchParams({})
     setBaseArray(createRandomArray())
   }
 
@@ -234,8 +243,14 @@ export default function Visualizer({ algorithmType }) {
   }
 
   const handleAlgorithmChange = (event) => {
+    const newAlgo = event.target.value
     clearPlayback()
-    setSelectedAlgorithm(event.target.value)
+    setSelectedAlgorithm(newAlgo)
+    if (newAlgo) {
+      setSearchParams({ algo: newAlgo })
+    } else {
+      setSearchParams({})
+    }
   }
 
   return (
