@@ -21,7 +21,7 @@ const createArray = (type) => {
 
 export default function Visualizer({ algorithm }) {
   const [searchParams, setSearchParams] = useSearchParams()
-  
+
   const [baseArray, setBaseArray] = useState(() => createArray(algorithm))
   const [target, setTarget] = useState(() => {
     const urlTarget = searchParams.get('target')

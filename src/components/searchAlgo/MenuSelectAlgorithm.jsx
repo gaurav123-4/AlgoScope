@@ -7,7 +7,7 @@ export const MenuSelectAlgorithm = ({ algorithm, setAlgorithm }) => {
   useEffect(() => {
     const algoFromUrl = searchParams.get('algo')
     const validAlgos = ['bfs', 'dfs']
-    
+
     if (algoFromUrl && validAlgos.includes(algoFromUrl)) {
       setAlgorithm(algoFromUrl)
     }
